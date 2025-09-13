@@ -26,12 +26,18 @@ public class Exercise {
   @Enumerated(value = EnumType.STRING)
   private Level level;
 
+  @Column(nullable = true)
+  @Enumerated(value = EnumType.STRING)
   private ExerciseStatus status;
 
   @Column(nullable = true, name = "youtube_link")
   private String youtubeLink;
 
 //  private User userId;
+
+  public void initStatus() {
+    this.status = ExerciseStatus.UNCOMPLETED;
+  }
 
 
 
