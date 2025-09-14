@@ -4,12 +4,22 @@ package com.mirae.DailyBoost.exercise.domain.repository;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.ExerciseStatus;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.Level;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Exercise {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

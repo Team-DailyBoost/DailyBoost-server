@@ -13,12 +13,12 @@ public class ExerciseService {
 
   private final ExerciseRepository exerciseRepository;
 
-  private void register(Exercise exercise) {
+  public void register(Exercise exercise) {
     exercise.initStatus();
     exerciseRepository.save(exercise);
   }
 
-  private Optional<Exercise> getExercise(Long exerciseId, ExerciseStatus status) {
+  public Optional<Exercise> getExercise(Long exerciseId, ExerciseStatus status) {
     return exerciseRepository.findByIdAndStatus(exerciseId, status);
   }
 

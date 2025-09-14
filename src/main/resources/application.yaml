@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: DailyBoost
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/DailyBoost
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  ai:
+    vertex:
+      ai:
+        gemini:
+          project-id: ${PROJECT_ID}
+          location: us-central1
+          chat:
+            options:
+              model: gemini-2.0-flash-lite
+              temperature: 0.5
+    openai:
+      api-key: ${GEMINI_API_KEY}
+
