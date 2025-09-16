@@ -7,7 +7,7 @@ import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRec
 import com.mirae.DailyBoost.exercise.domain.converter.ExerciseConverter;
 import com.mirae.DailyBoost.exercise.domain.repository.Exercise;
 import com.mirae.DailyBoost.exercise.domain.service.ExerciseService;
-import com.mirae.DailyBoost.openChatAI.controller.model.response.MessageResponse;
+import com.mirae.DailyBoost.common.moel.MessageResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
