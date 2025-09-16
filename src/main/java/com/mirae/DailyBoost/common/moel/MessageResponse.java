@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.openChatAI.controller.model.response;
+package com.mirae.DailyBoost.common.moel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
