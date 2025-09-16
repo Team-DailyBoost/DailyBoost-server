@@ -3,7 +3,7 @@ package com.mirae.DailyBoost.exercise.domain.controller;
 import com.mirae.DailyBoost.common.api.Api;
 import com.mirae.DailyBoost.exercise.domain.business.ExerciseBusiness;
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRecommendation;
-import com.mirae.DailyBoost.openChatAI.controller.model.response.MessageResponse;
+import com.mirae.DailyBoost.common.moel.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

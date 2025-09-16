@@ -3,7 +3,10 @@ package com.mirae.DailyBoost.openChatAI.controller;
 import com.mirae.DailyBoost.common.api.Api;
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRecommendation;
 import com.mirae.DailyBoost.openChatAI.business.GeminiBusiness;
-import com.mirae.DailyBoost.openChatAI.controller.model.request.UserInputRequest;
+import com.mirae.DailyBoost.openChatAI.controller.model.request.ExerciseRequest;
+import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRecommendation;
+import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRequest;
+import com.mirae.DailyBoost.openChatAI.controller.model.request.RecipeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,20 +20,22 @@ public class GeminiController {
   private final GeminiBusiness geminiBusiness;
 
   @GetMapping("/recommend/exercise")
-  public Api<ExerciseRecommendation> recommendExercise(@RequestBody UserInputRequest userInputRequest) {
-    return geminiBusiness.recommendExercise(userInputRequest);
+  public Api<ExerciseRecommendation> recommendExercise(@RequestBody ExerciseRequest exerciseRequest) {
+    return Api.OK(geminiBusiness.recommendExercise(exerciseRequest));
 
   }
 
-//  @GetMapping("/recommend/food")
-//  public MessageResponse recommendEercise(@RequestBody String userInput) {
-//    return geminiBusiness.recommendExercise(userInput);
-//
-//  }
-//
-//  @GetMapping("/recommend/resipe")
-//  public MessageResponse recommendExercie(@RequestBody String userInput) {
-//    return geminiBusiness.recommendExercise(userInput);
-//
-//  }
+  @GetMapping("/recommend/food")
+  public Api<FoodRecommendation> recommendFood(@RequestBody FoodRequest foodRequest) {
+    return Api.OK(geminiBusiness.recommendFood(foodRequest));
+
+  }
+
+
+  @GetMapping("/recommend/recipe")
+  public Api<FoodRecommendation> recommendRecipe(@RequestBody RecipeRequest recipeRequest) {
+    return Api.OK(geminiBusiness.recommendRecipe(recipeRequest));
+
+  }
+
 }

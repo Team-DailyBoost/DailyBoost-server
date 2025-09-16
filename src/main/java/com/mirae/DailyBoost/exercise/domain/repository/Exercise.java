@@ -26,17 +26,17 @@ public class Exercise {
   @Column(name = "exercise_id")
   private Long id;
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   private String name;
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   private String description;
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
   private Level level;
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
   private ExerciseStatus status;
 
