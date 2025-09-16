@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserInputRequest {
+public class ExerciseRequest {
 
   private String userInput;
   private Level level;
