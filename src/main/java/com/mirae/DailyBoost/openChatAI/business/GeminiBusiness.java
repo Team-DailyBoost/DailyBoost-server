@@ -106,7 +106,7 @@ public class GeminiBusiness {
                   "carbohydrate": "음식 탄수화물 함유량"
                   "protein": "음식 단백질 함유량"
                   "fat": "음식 자방 함유량"
-                  "foodKind": RECIPE
+                  "foodKind": "RECIPE"
                   "description": 음식 만드는 방법 자세히 (설명)
                   }
                 ]
