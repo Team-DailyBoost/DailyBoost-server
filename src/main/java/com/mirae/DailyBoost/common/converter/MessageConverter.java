@@ -1,7 +1,7 @@
 package com.mirae.DailyBoost.common.converter;
 
 import com.mirae.DailyBoost.common.annotation.Converter;
-import com.mirae.DailyBoost.common.moel.MessageResponse;
+import com.mirae.DailyBoost.common.model.MessageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
