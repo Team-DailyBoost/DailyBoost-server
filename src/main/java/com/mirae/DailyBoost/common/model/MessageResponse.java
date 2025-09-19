@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.common.moel;
+package com.mirae.DailyBoost.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
