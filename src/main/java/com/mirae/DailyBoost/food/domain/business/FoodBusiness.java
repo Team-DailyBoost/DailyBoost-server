@@ -1,14 +1,14 @@
 package com.mirae.DailyBoost.food.domain.business;
 
 import com.mirae.DailyBoost.common.annotation.Business;
-import com.mirae.DailyBoost.common.api.Api;
 import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.moel.MessageResponse;
+import com.mirae.DailyBoost.common.model.MessageResponse;
 import com.mirae.DailyBoost.food.domain.Controller.model.response.FoodResponse;
 import com.mirae.DailyBoost.food.domain.converter.FoodConverter;
 import com.mirae.DailyBoost.food.domain.repository.Food;
 import com.mirae.DailyBoost.food.domain.repository.enums.FoodKind;
 import com.mirae.DailyBoost.food.domain.service.FoodService;
+import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRecommendation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +21,11 @@ public class FoodBusiness {
   private final FoodConverter foodConverter;
   private final MessageConverter messageConverter;
 
-  public MessageResponse register(FoodRecommendation foodRecommendation) {
+  public MessageResponse register(UserDTO userDTO, FoodRecommendation foodRecommendation) {
 
     // userId 추가 해야 함.
+    Long id = userDTO.getId();
+
     List<Food> foods = foodConverter.toEntity(foodRecommendation);
     FoodKind foodKind = foods.stream().map(Food::getFoodKind).findFirst().orElse(null);
 

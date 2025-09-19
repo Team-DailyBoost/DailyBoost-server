@@ -1,13 +1,17 @@
 package com.mirae.DailyBoost.food.domain.Controller;
 
+import com.mirae.DailyBoost.common.annotation.LoginUser;
 import com.mirae.DailyBoost.common.api.Api;
-import com.mirae.DailyBoost.common.moel.MessageResponse;
+import com.mirae.DailyBoost.common.model.MessageResponse;
 import com.mirae.DailyBoost.food.domain.Controller.model.request.FoodKindRequest;
 import com.mirae.DailyBoost.food.domain.Controller.model.request.FoodNameRequest;
 import com.mirae.DailyBoost.food.domain.Controller.model.response.FoodResponse;
 import com.mirae.DailyBoost.food.domain.business.FoodBusiness;
+import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRecommendation;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +27,9 @@ public class FoodController {
   private final FoodBusiness foodBusiness;
 
   @PostMapping("/register")
-  public Api<MessageResponse> register(@RequestBody FoodRecommendation foodRecommendation) {
-    return Api.OK(foodBusiness.register(foodRecommendation));
+  public Api<MessageResponse> register(@LoginUser UserDTO userDTO,
+      @RequestBody FoodRecommendation foodRecommendation) {
+    return Api.OK(foodBusiness.register(userDTO, foodRecommendation));
 
   }
 
