@@ -1,6 +1,7 @@
 package com.mirae.DailyBoost.oauth.config;
 
 import com.mirae.DailyBoost.oauth.business.CustomOAuth2UserBusiness;
+import com.mirae.DailyBoost.oauth.handler.CustomLoginSuccessHandler;
 import com.mirae.DailyBoost.user.domain.repository.enums.Role;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
   private final CustomOAuth2UserBusiness customOAuth2UserBusiness;
+  private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,11 +35,15 @@ public class SecurityConfig {
 //        ) 요청 URL에 따른 권한을 설정
         .logout(logout -> logout.logoutSuccessUrl("/")) // 로그아웃 시 리다이렉트 될 URL을 설정
         .oauth2Login(oauth2 -> oauth2
-//            .loginPage("/login")
             .userInfoEndpoint(userInfo ->
-                userInfo.userService(customOAuth2UserBusiness)) // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정
-            .defaultSuccessUrl("/main.html", true) // 로그인 성공시 /으로 이동
+                userInfo.userService(customOAuth2UserBusiness))// OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정
+            .successHandler(customLoginSuccessHandler)
             .failureUrl("/login?error=true")
+        )
+        .logout(logout -> logout
+            .logoutSuccessUrl("/") // 로그아웃 후 이동
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
         );
     return http.build();
   }
