@@ -30,4 +30,15 @@ public class UserController {
     return Api.OK(userBusiness.userInfoInsert(userDTO, userRequest));
   }
 
+  @PostMapping("/unregister")
+  public Api<MessageResponse> unregister(@LoginUser UserDTO userDTO) {
+    return Api.OK(userBusiness.unregister(userDTO));
+  }
+
+  @PostMapping("/revoke")
+  public Api<MessageResponse> revokeUnregister(@LoginUser UserDTO userDTO) {
+    return Api.OK(userBusiness.revokeUnregistration(userDTO));
+  }
+
+
 }
