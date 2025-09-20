@@ -44,6 +44,9 @@ public class User {
   @Enumerated(value = EnumType.STRING)
   private Gender gender;
 
+  @Column(name = "last_login_at")
+  private LocalDateTime lastLogin_at;
+
   @Column(name = "registeredAt")
   private LocalDateTime registered_at;
 
@@ -65,7 +68,6 @@ public class User {
 
   private LocalDate birthDay;
 
-  @Column(nullable = true)
   private String allergy;
 
   private String provider; // 공급자(kakao, google.. )
@@ -83,4 +85,15 @@ public class User {
     return this.role.getStr();
   }
 
+  public void changeStatus(UserStatus status) {
+    this.status = status;
+  }
+
+  public void initUnregisterAt(LocalDateTime localDateTime) {
+    this.unregistered_at = localDateTime;
+  }
+
+  public void initLastLoginAt(LocalDateTime localDateTime) {
+    this.lastLogin_at = localDateTime;
+  }
 }
