@@ -6,11 +6,12 @@ import com.mirae.DailyBoost.common.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.controller.model.request.UserRequest;
+import com.mirae.DailyBoost.user.domain.controller.model.response.UserResponse;
 import com.mirae.DailyBoost.user.domain.converter.UserConverter;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
 import com.mirae.DailyBoost.user.domain.service.UserService;
-import java.util.Map;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,50 @@ public class UserBusiness {
     User user = userConverter.toEntity(attributes);
 
     return userService.save(user);
+  }
+
+  public MessageResponse unregister(UserDTO userDTO) {
+    if (userDTO.getRole() == null) {
+      throw new IllegalArgumentException("잘못된 요청입니다.");
+    }
+
+    User user = userService.getByEmail(userDTO.getEmail())
+        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+
+    if (user.getStatus() == UserStatus.UNREGISTERED) {
+      throw new IllegalArgumentException("계정이 이미 삭제된 상태입니다.");
+    }
+
+    user.changeStatus(UserStatus.UNREGISTERED); // register -> unregister
+    user.initUnregisterAt(LocalDateTime.now());
+
+    userService.save(user);
+
+    return messageConverter.toResponse("계정이 삭제되었습니다."); // 한달 간 저장 후 영구 삭제
+
+  }
+
+  public MessageResponse recoverUserAccount(UserDTO userDTO) {
+
+    return null;
+  }
+
+  public MessageResponse revokeUnregistration(UserDTO userDTO) {
+
+    if (userDTO.getRole() == null) {
+      throw new IllegalArgumentException("잘못된 요청입니다.");
+    }
+
+    User user = userService.getByEmail(userDTO.getEmail())
+        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+
+    user.changeStatus(UserStatus.REGISTERED); // unregistered -> registered
+    user.initUnregisterAt(null);
+
+    userService.save(user);
+
+    return messageConverter.toResponse("계정이 복구 되었습니다.");
+
   }
 
   public MessageResponse userInfoInsert(UserDTO userDTO, UserRequest userRequest) {
@@ -55,6 +100,14 @@ public class UserBusiness {
     return userService.getByEmail(email).orElseGet(
         () -> register(attributes)
     );
+  }
+
+  // ADMIN 전용
+  public UserResponse getByEmail(UserDTO userDTO) {
+    User user = userService.getByEmail(userDTO.getEmail())
+        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+
+    return userConverter.toUserResponse(user);
   }
 
   @Transactional(readOnly = true)
