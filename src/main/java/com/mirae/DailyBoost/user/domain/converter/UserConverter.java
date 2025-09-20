@@ -2,6 +2,7 @@ package com.mirae.DailyBoost.user.domain.converter;
 
 import com.mirae.DailyBoost.common.annotation.Converter;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
+import com.mirae.DailyBoost.user.domain.controller.model.response.UserResponse;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.repository.enums.Role;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
@@ -26,4 +27,14 @@ public class UserConverter {
         .build();
   }
 
+  public UserResponse toUserResponse(User user) {
+    return UserResponse.builder()
+        .id(user.getId())
+        .email(user.getEmail())
+        .name(user.getNickname())
+        .phone(user.getPhone())
+        .nickname(user.getNickname())
+        .gender(user.getGender())
+        .build();
+  }
 }
