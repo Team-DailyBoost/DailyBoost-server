@@ -1,6 +1,6 @@
 package com.mirae.DailyBoost.user.domain.repository;
 
-import com.mirae.DailyBoost.user.domain.repository.enums.ActivityLevel;
+import com.mirae.DailyBoost.user.domain.repository.enums.Goal;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +19,6 @@ public class HealthInfo {
   private BigDecimal height;
 
   @Enumerated(value = EnumType.STRING)
-  private ActivityLevel activityLevel;
+  private Goal goal;
 
 }

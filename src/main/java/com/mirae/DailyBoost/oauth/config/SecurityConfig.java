@@ -23,8 +23,11 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(AbstractHttpConfigurer::disable)
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/api/**"))
         .authorizeHttpRequests(auth -> auth // 수정 예정
+            .requestMatchers("/api/email/htmlEmail").permitAll()
+            .requestMatchers("/api/user/recover").permitAll()
             .requestMatchers("/", "/css/**", "/js/**", "/login").permitAll() // 해당 URL 패턴들은 모든 사용자가 접근 가능
             .requestMatchers("/api/**").hasRole(Role.USER.name()) // "/api/**" 패턴의 URL은 USER 권한을 가진 사용자만 접근 가능
             .anyRequest().authenticated() // 나머지 모든 요청은 인증된 사용자만 접근 가능
