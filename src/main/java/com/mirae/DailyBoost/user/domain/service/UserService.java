@@ -31,9 +31,24 @@ public class UserService {
     return userRepository.findAllByEmailIn(emails);
   }
 
-
   public Optional<User> getById(Long id) {
     return userRepository.findById(id);
   }
 
+  public Optional<User> getByEmailAndStatus(String email, UserStatus status) {
+    return userRepository.findByEmailAndStatus(email, status);
+  }
+
+  public Optional<User> getByEmailAndStatusNot(String email, UserStatus status) {
+    return userRepository.findByEmailAndStatusNot(email, status);
+  }
+
+  public Boolean existsByEmailAndStatusNot(String email, UserStatus status) {
+    return userRepository.existsByEmailAndStatusNot(email, status);
+  }
+
+  public Optional<User> getByIdAndStatus(Long id, UserStatus userStatus) {
+    return userRepository.findUserByIdAndStatus(id, userStatus);
+
+  }
 }
