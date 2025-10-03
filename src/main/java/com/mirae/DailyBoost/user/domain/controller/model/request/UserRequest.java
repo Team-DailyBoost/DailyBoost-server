@@ -12,7 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRequest {
   private HealthInfo healthInfo;
-  private String goal;
-  private String allergy;
 
 }
