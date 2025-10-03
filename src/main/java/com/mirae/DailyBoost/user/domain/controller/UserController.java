@@ -50,7 +50,7 @@ public class UserController {
       summary = "사용자 정보 수정",
       description = "자신의 정보를 수정합니다."
   )
-  public Api<MessageResponse> update(@LoginUser UserDTO userDTO, UserUpdateRequest userUpdateRequest) {
+  public Api<MessageResponse> update(@LoginUser UserDTO userDTO, @RequestBody UserUpdateRequest userUpdateRequest) {
     return Api.OK(userBusiness.updateUserInfo(userDTO, userUpdateRequest));
   }
 
@@ -63,7 +63,7 @@ public class UserController {
     return Api.OK(userBusiness.recoverUserAccount(request));
   }
 
-  @GetMapping
+  @GetMapping("/{userId}")
   @Operation(
       summary = "사용자 프로필 조회",
       description = "사용자의 프로필을 조회합니다."
