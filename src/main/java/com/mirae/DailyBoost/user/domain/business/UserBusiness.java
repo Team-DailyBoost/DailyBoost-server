@@ -6,10 +6,14 @@ import com.mirae.DailyBoost.common.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.controller.model.request.UserRequest;
+import com.mirae.DailyBoost.user.domain.controller.model.request.UserUpdateRequest;
+import com.mirae.DailyBoost.user.domain.controller.model.request.VerifyCodeRequest;
 import com.mirae.DailyBoost.user.domain.controller.model.response.UserResponse;
 import com.mirae.DailyBoost.user.domain.converter.UserConverter;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
+import com.mirae.DailyBoost.user.domain.service.RecoveryCodeStore;
+import com.mirae.DailyBoost.user.domain.service.RecoveryCodeStore.VerifyResult;
 import com.mirae.DailyBoost.user.domain.service.UserService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,8 @@ public class UserBusiness {
   private final UserService userService;
   private final UserConverter userConverter;
   private final MessageConverter messageConverter;
+  private final RecoveryCodeStore recoveryCodeStore;
+
 
   public User register(OAuthAttributes attributes) {
 
@@ -54,26 +60,37 @@ public class UserBusiness {
 
   }
 
-  public MessageResponse recoverUserAccount(UserDTO userDTO) {
+  public MessageResponse recoverUserAccount(VerifyCodeRequest request) {
 
-    return null;
-  }
-
-  public MessageResponse revokeUnregistration(UserDTO userDTO) {
-
-    if (userDTO.getRole() == null) {
-      throw new IllegalArgumentException("잘못된 요청입니다.");
-    }
-
-    User user = userService.getByEmail(userDTO.getEmail())
+    User user = userService.getByEmailAndStatusNot(request.getEmail(), UserStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
 
-    user.changeStatus(UserStatus.REGISTERED); // unregistered -> registered
-    user.initUnregisterAt(null);
+    VerifyResult result = recoveryCodeStore.verifyAndConsume(request.getEmail(),
+        request.getInputCode());
 
+    switch (result) {
+      case SUCCESS -> {}
+      case MISMATCH -> throw new IllegalArgumentException("VERIFICATION_CODE_MISMATCH");
+      case EXPIRED_OR_NOT_FOUND -> throw new IllegalArgumentException("VERIFICATION_CODE_EXPIRED_OR_NOT_FOUND");
+    }
+
+    user.changeStatus(UserStatus.REGISTERED);
+    user.initUnregisterAt(null);
     userService.save(user);
 
     return messageConverter.toResponse("계정이 복구 되었습니다.");
+  }
+
+  public MessageResponse updateUserInfo(UserDTO userDTO, UserUpdateRequest request) {
+
+    User user = userService.getById(userDTO.getId())
+        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+
+    user.updateInfo(request.getAge(), request.getGender(), request.getHealthInfo());
+
+    userService.save(user);
+
+    return messageConverter.toResponse("프로필이 수정되었습니다.");
 
   }
 
@@ -88,7 +105,7 @@ public class UserBusiness {
     User user = userService.getByStatus(userDTO.getId(), UserStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
 
-    user.initInfo(userRequest.getHealthInfo(), userRequest.getGoal(), userRequest.getAllergy());
+    user.initInfo(userRequest.getHealthInfo());
 
     userService.save(user);
 
@@ -97,14 +114,14 @@ public class UserBusiness {
   }
 
   public User getByEmailElseRegister(String email, OAuthAttributes attributes) {
-    return userService.getByEmail(email).orElseGet(
-        () -> register(attributes)
-    );
+    return userService.getByEmail(email)
+        .orElseGet(() -> register(attributes));
   }
 
-  // ADMIN 전용
-  public UserResponse getByEmail(UserDTO userDTO) {
-    User user = userService.getByEmail(userDTO.getEmail())
+
+  @Transactional(readOnly = true)
+  public UserResponse getByIdAndStatus(Long id) {
+    User user = userService.getByIdAndStatus(id, UserStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
 
     return userConverter.toUserResponse(user);
