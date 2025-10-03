@@ -24,8 +24,7 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .csrf(csrf -> csrf
-            .ignoringRequestMatchers("/api/email/htmlEmail")
-            .ignoringRequestMatchers("/api/user/recover"))
+            .ignoringRequestMatchers("/api/**"))
         .authorizeHttpRequests(auth -> auth // 수정 예정
             .requestMatchers("/api/email/htmlEmail").permitAll()
             .requestMatchers("/api/user/recover").permitAll()
