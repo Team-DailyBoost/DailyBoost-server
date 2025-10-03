@@ -1,6 +1,7 @@
 package com.mirae.DailyBoost.user.domain.repository;
 
 import com.mirae.DailyBoost.user.domain.repository.enums.Gender;
+import com.mirae.DailyBoost.user.domain.repository.enums.Goal;
 import com.mirae.DailyBoost.user.domain.repository.enums.Role;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
 import jakarta.persistence.Column;
@@ -41,6 +42,9 @@ public class User {
   @Column(nullable = false)
   private String nickname;
 
+  @Column(nullable = true)
+  private String profileImageUrl;
+
   @Enumerated(value = EnumType.STRING)
   private Gender gender;
 
@@ -53,8 +57,6 @@ public class User {
   @Column(name = "unregisteredAt")
   private LocalDateTime unregistered_at;
 
-  private Long score;
-
   @Enumerated(value = EnumType.STRING)
   private UserStatus status;
 
@@ -64,21 +66,30 @@ public class User {
   @Embedded
   private HealthInfo healthInfo;
 
-  private String goal;
-
   private LocalDate birthDay;
 
-  private String allergy;
+  private String age;
 
   private String provider; // 공급자(kakao, google.. )
 
   private String providerId; // 공급 아이디
 
-  public void initInfo(HealthInfo healthInfo, String goal, String allergy) {
+  public void initInfo(HealthInfo healthInfo) {
     this.healthInfo = healthInfo;
-    this.goal = goal;
-    this.allergy = allergy;
+  }
 
+  public void updateInfo(String age, Gender gender, HealthInfo healthInfo) {
+    if (age != null) {
+      this.age = age;
+    }
+    if (gender != null) {
+      this.gender = gender;
+
+    }
+
+    if (healthInfo != null) {
+      this.healthInfo = healthInfo;
+    }
   }
 
   public String getRoleKey() {
