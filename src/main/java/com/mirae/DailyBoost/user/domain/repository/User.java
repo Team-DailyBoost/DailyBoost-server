@@ -79,17 +79,9 @@ public class User {
   }
 
   public void updateInfo(String age, Gender gender, HealthInfo healthInfo) {
-    if (age != null) {
       this.age = age;
-    }
-    if (gender != null) {
       this.gender = gender;
-
-    }
-
-    if (healthInfo != null) {
       this.healthInfo = healthInfo;
-    }
   }
 
   public String getRoleKey() {
