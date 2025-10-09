@@ -1,7 +1,6 @@
 package com.mirae.DailyBoost.user.domain.repository;
 
 import com.mirae.DailyBoost.user.domain.repository.enums.Gender;
-import com.mirae.DailyBoost.user.domain.repository.enums.Goal;
 import com.mirae.DailyBoost.user.domain.repository.enums.Role;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
 import jakarta.persistence.Column;

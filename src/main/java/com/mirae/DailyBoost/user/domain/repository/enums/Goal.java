@@ -1,5 +1,8 @@
 package com.mirae.DailyBoost.user.domain.repository.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Goal {
   WEIGHT_LOSS,                // 체중 감량
   MUSCLE_GAIN,                // 근육 증가

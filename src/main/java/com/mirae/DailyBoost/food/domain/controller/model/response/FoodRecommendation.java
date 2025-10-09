@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.openChatAI.controller.model.request;
+package com.mirae.DailyBoost.food.domain.controller.model.response;
 
 import com.mirae.DailyBoost.food.domain.repository.enums.FoodKind;
 import java.math.BigDecimal;
@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class FoodInfoDto {
+public class FoodRecommendation {
 
   private String name;
   private BigDecimal calory;
