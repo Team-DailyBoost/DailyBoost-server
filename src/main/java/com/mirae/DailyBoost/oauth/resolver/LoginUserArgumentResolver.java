@@ -1,6 +1,6 @@
 package com.mirae.DailyBoost.oauth.resolver;
 
-import com.mirae.DailyBoost.common.annotation.LoginUser;
+import com.mirae.DailyBoost.global.annotation.LoginUser;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

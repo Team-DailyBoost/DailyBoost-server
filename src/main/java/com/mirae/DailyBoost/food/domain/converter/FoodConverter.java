@@ -1,6 +1,6 @@
 package com.mirae.DailyBoost.food.domain.converter;
 
-import com.mirae.DailyBoost.common.annotation.Converter;
+import com.mirae.DailyBoost.global.annotation.Converter;
 import com.mirae.DailyBoost.food.domain.controller.model.response.FoodResponse;
 import com.mirae.DailyBoost.food.domain.repository.Food;
 import com.mirae.DailyBoost.food.domain.controller.model.response.FoodRecommendation;

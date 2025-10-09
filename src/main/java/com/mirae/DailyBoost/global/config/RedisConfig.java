@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.common.config;
+package com.mirae.DailyBoost.global.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

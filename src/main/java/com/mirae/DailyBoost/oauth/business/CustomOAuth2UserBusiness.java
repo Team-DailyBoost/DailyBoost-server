@@ -1,10 +1,13 @@
 package com.mirae.DailyBoost.oauth.business;
 
+import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.business.UserBusiness;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
+import com.mirae.DailyBoost.user.exception.user.AlreadyUnregisteredException;
+import com.mirae.DailyBoost.user.exception.user.DormantAccountException;
 import jakarta.servlet.http.HttpSession;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -50,13 +53,11 @@ public class CustomOAuth2UserBusiness implements OAuth2UserService<OAuth2UserReq
     User user = userBusiness.getByEmailElseRegister(email, attributes);
 
     if(user.getStatus() == UserStatus.UNREGISTERED) {
-      throw new IllegalAccessError("회원님의 계정은 탈퇴되어 한달 후 영구 삭제될 예정입니다."
-          + "로그인을 하려면 탈퇴 취소를 해주세요.");
+      throw new AlreadyUnregisteredException(UserErrorCode.ALREADY_UNREGISTERED);
     }
 
     if(user.getStatus() == UserStatus.DORMANT) {
-      throw new IllegalAccessError("회원님의 계정이 휴면계정이 되었습니다."
-          + "로그인을 하려면 계정 복구를 해주세요.");
+      throw new DormantAccountException(UserErrorCode.DORMANT_ACCOUNT);
     }
 
     log.info("세션 저장 시작 -> {}", user.getEmail());

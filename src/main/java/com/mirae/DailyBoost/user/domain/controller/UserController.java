@@ -1,8 +1,8 @@
 package com.mirae.DailyBoost.user.domain.controller;
 
-import com.mirae.DailyBoost.common.annotation.LoginUser;
-import com.mirae.DailyBoost.common.api.Api;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.LoginUser;
+import com.mirae.DailyBoost.global.api.Api;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.business.UserBusiness;
 import com.mirae.DailyBoost.user.domain.controller.model.request.UserRequest;

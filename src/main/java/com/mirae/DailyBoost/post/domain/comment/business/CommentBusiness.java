@@ -1,8 +1,8 @@
 package com.mirae.DailyBoost.post.domain.comment.business;
 
-import com.mirae.DailyBoost.common.annotation.Business;
-import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.Business;
+import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.post.domain.comment.controller.model.request.CommentRequest;
 import com.mirae.DailyBoost.post.domain.comment.controller.model.request.CommentUnregisterRequest;

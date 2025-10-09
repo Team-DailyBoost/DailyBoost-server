@@ -13,9 +13,9 @@ import com.mirae.DailyBoost.calendars.domain.event.controller.model.response.Eve
 import com.mirae.DailyBoost.calendars.domain.event.converter.EventConverter;
 import com.mirae.DailyBoost.calendars.domain.event.repository.Event;
 import com.mirae.DailyBoost.calendars.domain.event.service.EventService;
-import com.mirae.DailyBoost.common.annotation.Business;
-import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.Business;
+import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import java.time.LocalDateTime;
 import java.util.List;

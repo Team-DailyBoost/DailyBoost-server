@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.common.config;
+package com.mirae.DailyBoost.global.config;
 
 import com.mirae.DailyBoost.oauth.resolver.LoginUserArgumentResolver;
 import java.util.List;

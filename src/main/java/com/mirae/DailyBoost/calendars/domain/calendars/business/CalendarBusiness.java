@@ -11,9 +11,9 @@ import com.mirae.DailyBoost.calendars.domain.calendars.converter.CalendarConvert
 import com.mirae.DailyBoost.calendars.domain.calendars.repository.Calendars;
 import com.mirae.DailyBoost.calendars.domain.calendars.repository.enums.CalendarRole;
 import com.mirae.DailyBoost.calendars.domain.calendars.service.CalendarService;
-import com.mirae.DailyBoost.common.annotation.Business;
-import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.Business;
+import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.service.UserService;

@@ -4,7 +4,7 @@ import com.mirae.DailyBoost.calendars.domain.calendars.controller.model.request.
 import com.mirae.DailyBoost.calendars.domain.calendars.controller.model.response.CalendarResponse;
 import com.mirae.DailyBoost.calendars.domain.calendars.controller.model.response.CalendarsResponse;
 import com.mirae.DailyBoost.calendars.domain.calendars.repository.Calendars;
-import com.mirae.DailyBoost.common.annotation.Converter;
+import com.mirae.DailyBoost.global.annotation.Converter;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,12 +1,12 @@
 package com.mirae.DailyBoost.openChatAI.controller;
 
-import com.mirae.DailyBoost.common.api.Api;
+import com.mirae.DailyBoost.global.api.Api;
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRecommendation;
 import com.mirae.DailyBoost.openChatAI.business.GeminiBusiness;
 import com.mirae.DailyBoost.openChatAI.controller.model.request.ExerciseRequest;
-import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRecommendation;
+import com.mirae.DailyBoost.food.domain.controller.model.response.FoodRecommendation;
 import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRequest;
-import com.mirae.DailyBoost.openChatAI.controller.model.request.RecipeRequest;
+import com.mirae.DailyBoost.food.domain.controller.model.request.RecipeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,7 +1,7 @@
 package com.mirae.DailyBoost.user.domain.business;
 
-import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.user.domain.controller.model.MailHtmlSendDTO;
 import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
 import com.mirae.DailyBoost.user.domain.service.RecoveryCodeStore;
