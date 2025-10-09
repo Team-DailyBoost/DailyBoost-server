@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.food.domain.Controller.model.request;
+package com.mirae.DailyBoost.food.domain.controller.model.request;
 
 import com.mirae.DailyBoost.food.domain.repository.enums.FoodKind;
 import lombok.AllArgsConstructor;
