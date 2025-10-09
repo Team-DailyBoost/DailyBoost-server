@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.openChatAI.controller.model.request;
+package com.mirae.DailyBoost.food.domain.controller.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
