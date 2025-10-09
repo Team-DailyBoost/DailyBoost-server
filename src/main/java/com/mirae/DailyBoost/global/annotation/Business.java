@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.common.annotation;
+package com.mirae.DailyBoost.global.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

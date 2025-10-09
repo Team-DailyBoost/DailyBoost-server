@@ -1,8 +1,9 @@
 package com.mirae.DailyBoost.user.domain.business;
 
-import com.mirae.DailyBoost.common.annotation.Business;
-import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.Business;
+import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.controller.model.request.UserRequest;
@@ -15,6 +16,7 @@ import com.mirae.DailyBoost.user.domain.repository.enums.UserStatus;
 import com.mirae.DailyBoost.user.domain.service.RecoveryCodeStore;
 import com.mirae.DailyBoost.user.domain.service.RecoveryCodeStore.VerifyResult;
 import com.mirae.DailyBoost.user.domain.service.UserService;
+import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,7 @@ public class UserBusiness {
     }
 
     User user = userService.getByEmail(userDTO.getEmail())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     if (user.getStatus() == UserStatus.UNREGISTERED) {
       throw new IllegalArgumentException("계정이 이미 삭제된 상태입니다.");
@@ -63,7 +65,7 @@ public class UserBusiness {
   public MessageResponse recoverUserAccount(VerifyCodeRequest request) {
 
     User user = userService.getByEmailAndStatusNot(request.getEmail(), UserStatus.REGISTERED)
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     VerifyResult result = recoveryCodeStore.verifyAndConsume(request.getEmail(),
         request.getInputCode());
@@ -84,7 +86,7 @@ public class UserBusiness {
   public MessageResponse updateUserInfo(UserDTO userDTO, UserUpdateRequest request) {
 
     User user = userService.getById(userDTO.getId())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     user.updateInfo(request.getAge(), request.getGender(), request.getHealthInfo());
 
@@ -100,10 +102,8 @@ public class UserBusiness {
       throw new IllegalArgumentException("잘못된 요청입니다.");
     }
 
-    log.info("=============={}, {}, {} ============", userDTO.getId(), userDTO.getEmail(), userDTO.getRole());
-
     User user = userService.getByStatus(userDTO.getId(), UserStatus.REGISTERED)
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     user.initInfo(userRequest.getHealthInfo());
 
@@ -122,7 +122,7 @@ public class UserBusiness {
   @Transactional(readOnly = true)
   public UserResponse getByIdAndStatus(Long id) {
     User user = userService.getByIdAndStatus(id, UserStatus.REGISTERED)
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     return userConverter.toUserResponse(user);
   }
@@ -130,7 +130,7 @@ public class UserBusiness {
   @Transactional(readOnly = true)
   public User getByStatus(Long id, UserStatus status) {
     return userService.getByStatus(id, status)
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
   }
 

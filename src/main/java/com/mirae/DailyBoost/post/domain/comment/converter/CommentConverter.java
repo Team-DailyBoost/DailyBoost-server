@@ -1,6 +1,6 @@
 package com.mirae.DailyBoost.post.domain.comment.converter;
 
-import com.mirae.DailyBoost.common.annotation.Converter;
+import com.mirae.DailyBoost.global.annotation.Converter;
 import com.mirae.DailyBoost.post.domain.comment.controller.model.request.CommentRequest;
 import com.mirae.DailyBoost.post.domain.comment.controller.model.response.CommentResponse;
 import com.mirae.DailyBoost.post.domain.comment.repository.Comment;

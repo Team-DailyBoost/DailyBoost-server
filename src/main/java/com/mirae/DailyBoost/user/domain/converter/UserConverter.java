@@ -1,6 +1,6 @@
 package com.mirae.DailyBoost.user.domain.converter;
 
-import com.mirae.DailyBoost.common.annotation.Converter;
+import com.mirae.DailyBoost.global.annotation.Converter;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
 import com.mirae.DailyBoost.user.domain.controller.model.response.UserResponse;
 import com.mirae.DailyBoost.user.domain.repository.User;

@@ -1,11 +1,11 @@
 package com.mirae.DailyBoost.openChatAI.business;
 
-import com.mirae.DailyBoost.common.annotation.Business;
+import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRecommendation;
 import com.mirae.DailyBoost.openChatAI.controller.model.request.ExerciseRequest;
-import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRecommendation;
+import com.mirae.DailyBoost.food.domain.controller.model.response.FoodRecommendation;
 import com.mirae.DailyBoost.openChatAI.controller.model.request.FoodRequest;
-import com.mirae.DailyBoost.openChatAI.controller.model.request.RecipeRequest;
+import com.mirae.DailyBoost.food.domain.controller.model.request.RecipeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Qualifier;

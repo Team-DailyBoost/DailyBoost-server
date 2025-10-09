@@ -1,6 +1,5 @@
-package com.mirae.DailyBoost.common.config;
+package com.mirae.DailyBoost.global.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.beans.factory.annotation.Qualifier;

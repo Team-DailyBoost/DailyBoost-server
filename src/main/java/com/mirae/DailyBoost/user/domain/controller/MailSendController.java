@@ -1,7 +1,7 @@
 package com.mirae.DailyBoost.user.domain.controller;
 
-import com.mirae.DailyBoost.common.api.Api;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.api.Api;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.user.domain.controller.model.MailHtmlSendDTO;
 import com.mirae.DailyBoost.user.domain.business.MailSendBusiness;
 import io.swagger.v3.oas.annotations.Operation;

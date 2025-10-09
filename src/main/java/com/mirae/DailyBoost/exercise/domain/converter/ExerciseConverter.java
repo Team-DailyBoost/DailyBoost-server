@@ -1,7 +1,6 @@
 package com.mirae.DailyBoost.exercise.domain.converter;
 
-import com.mirae.DailyBoost.common.annotation.Converter;
-import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseInfoDto;
+import com.mirae.DailyBoost.global.annotation.Converter;
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRecommendation;
 import com.mirae.DailyBoost.exercise.domain.repository.Exercise;
 import java.util.List;

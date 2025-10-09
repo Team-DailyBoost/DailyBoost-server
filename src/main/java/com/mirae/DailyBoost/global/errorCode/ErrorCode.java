@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.common.errorCode;
+package com.mirae.DailyBoost.global.errorCode;
 
 public interface ErrorCode {
 

@@ -6,7 +6,7 @@ import com.mirae.DailyBoost.calendars.domain.event.controller.model.response.Eve
 import com.mirae.DailyBoost.calendars.domain.event.controller.model.response.EventResponse;
 import com.mirae.DailyBoost.calendars.domain.event.controller.model.response.EventsResponse;
 import com.mirae.DailyBoost.calendars.domain.event.repository.Event;
-import com.mirae.DailyBoost.common.annotation.Converter;
+import com.mirae.DailyBoost.global.annotation.Converter;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -6,9 +6,9 @@ import com.mirae.DailyBoost.calendars.domain.event.controller.model.request.Even
 import com.mirae.DailyBoost.calendars.domain.event.controller.model.request.EventsRequest;
 import com.mirae.DailyBoost.calendars.domain.event.controller.model.response.EventResponse;
 import com.mirae.DailyBoost.calendars.domain.event.controller.model.response.EventsResponse;
-import com.mirae.DailyBoost.common.annotation.LoginUser;
-import com.mirae.DailyBoost.common.api.Api;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.LoginUser;
+import com.mirae.DailyBoost.global.api.Api;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import java.time.LocalDateTime;
 import javax.validation.Valid;

@@ -1,6 +1,6 @@
-package com.mirae.DailyBoost.common.api;
+package com.mirae.DailyBoost.global.api;
 
-import com.mirae.DailyBoost.common.errorCode.ErrorCode;
+import com.mirae.DailyBoost.global.errorCode.ErrorCode;
 
 public record Api<T>(Integer errorCode, String description, T value) {
 

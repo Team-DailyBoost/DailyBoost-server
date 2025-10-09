@@ -1,8 +1,8 @@
 package com.mirae.DailyBoost.food.domain.business;
 
-import com.mirae.DailyBoost.common.annotation.Business;
-import com.mirae.DailyBoost.common.converter.MessageConverter;
-import com.mirae.DailyBoost.common.model.MessageResponse;
+import com.mirae.DailyBoost.global.annotation.Business;
+import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.food.domain.controller.model.response.FoodResponse;
 import com.mirae.DailyBoost.food.domain.converter.FoodConverter;
 import com.mirae.DailyBoost.food.domain.repository.Food;
