@@ -3,8 +3,6 @@ package com.mirae.DailyBoost.food.domain.controller;
 import com.mirae.DailyBoost.common.annotation.LoginUser;
 import com.mirae.DailyBoost.common.api.Api;
 import com.mirae.DailyBoost.common.model.MessageResponse;
-import com.mirae.DailyBoost.food.domain.controller.model.request.FoodKindRequest;
-import com.mirae.DailyBoost.food.domain.controller.model.request.FoodNameRequest;
 import com.mirae.DailyBoost.food.domain.controller.model.request.RecipeRequest;
 import com.mirae.DailyBoost.food.domain.controller.model.response.FoodResponse;
 import com.mirae.DailyBoost.food.domain.business.FoodBusiness;
