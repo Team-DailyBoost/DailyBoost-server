@@ -36,9 +36,6 @@ public class User {
   private String name;
 
   @Column(nullable = false)
-  private String phone;
-
-  @Column(nullable = false)
   private String nickname;
 
   @Column(nullable = true)

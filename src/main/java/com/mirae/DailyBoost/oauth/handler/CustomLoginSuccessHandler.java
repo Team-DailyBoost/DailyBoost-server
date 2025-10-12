@@ -1,8 +1,10 @@
 package com.mirae.DailyBoost.oauth.handler;
 
+import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.repository.UserRepository;
+import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,13 +32,14 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     String email = userDTO.getEmail();
 
     User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     user.initLastLoginAt(LocalDateTime.now());
     log.info("로그인 성공 {}", email);
 
     userRepository.save(user);
 
+    // 수정
     response.sendRedirect("/main.html"); // 로그인 직후 /main 페이지로 이동
     super.onAuthenticationSuccess(request, response, authentication);
   }
