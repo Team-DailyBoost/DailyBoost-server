@@ -22,7 +22,6 @@ public class OAuthAttributes {
   private String name;
   private String nickname;
   private String imageUrl;
-  private String phone;
   private Gender gender;
   private LocalDate birthDay;
   private String age;
@@ -34,16 +33,57 @@ public class OAuthAttributes {
     if ("kakao".equals(registrationId)) {
       return ofKakao(registrationId, userNameAttributeName, attributeMap);
     } else if ("naver".equals(registrationId)) {
-      return null; // 구현 예정
+      return ofNaver(registrationId, userNameAttributeName, attributeMap);
     }
 
-    return ofGoogle(registrationId, userNameAttributeName, attributeMap); // 구현 예정
+    return ofGoogle(registrationId, userNameAttributeName, attributeMap);
   }
 
   private static OAuthAttributes ofGoogle(String registrationId, String userNameAttributeName,
       Map<String, Object> attributeMap) {
 
-    return null;
+    return OAuthAttributes.builder()
+        .name((String) attributeMap.get("name"))
+        .nickname((String) attributeMap.get("name"))
+        .email((String) attributeMap.get("email"))
+        .imageUrl((String) attributeMap.get("picture"))
+        .attributeMap(attributeMap)
+        .provider(registrationId)
+        .providerId((String) attributeMap.get("sub"))
+        .nameAttributeKey(userNameAttributeName)
+        .build();
+  }
+
+  private static OAuthAttributes ofNaver(String registrationId, String userNameAttributeName,
+      Map<String,Object> attributeMap) {
+
+    Map<String, Object> response = (Map<String, Object>) attributeMap.get("response");
+
+    String gender = (String)response.get("gender");
+
+    if(gender == "F") {
+      gender = "FEMALE";
+    } else {
+      gender = "MALE";
+    }
+
+    LocalDate birth = getBirthDay(response);
+    int ageYears = AgeUtil.calculateAgeAt(birth.toString(), LocalDate.now(ZoneId.of("Asia/Seoul")));
+
+    return OAuthAttributes.builder()
+        .email((String)response.get("email"))
+        .name((String)response.get("name"))
+        .nickname((String)response.get("nickname"))
+        .imageUrl((String)response.get("profile_image"))
+        .gender(Gender.valueOf(gender))
+        .birthDay(getBirthDay(response))
+        .age(String.valueOf(ageYears))
+        .provider(registrationId)
+        .providerId((String) response.get("id"))
+        .nameAttributeKey(userNameAttributeName)
+        .attributeMap(attributeMap)
+        .build();
+
   }
 
   private static OAuthAttributes ofKakao(String registrationId, String userNameAttributeName,
@@ -59,7 +99,6 @@ public class OAuthAttributes {
         .name((String) kakaoAccount.get("name"))
         .nickname((String) profile.get("nickname"))
         .imageUrl((String) profile.get("profile_image_url"))
-        .phone((String) kakaoAccount.get("phone_number"))
         .gender(Gender.valueOf(((String) kakaoAccount.get("gender")).toUpperCase()))
         .birthDay(getBirthDay(kakaoAccount))
         .age(String.valueOf(ageYears))
@@ -70,9 +109,13 @@ public class OAuthAttributes {
         .build();
   }
 
-  private static LocalDate getBirthDay(Map<String, Object> kakaoAccount) {
-    String birthYear = (String) kakaoAccount.get("birthyear");
-    String birthDay = (String) kakaoAccount.get("birthday");
+  private static LocalDate getBirthDay(Map<String, Object> account) {
+    String birthYear = (String) account.get("birthyear");
+    String birthDay = (String) account.get("birthday");
+
+    if (birthDay.contains("-")) {
+      birthDay = birthDay.replace("-", "");
+    }
 
     return LocalDate.parse(birthYear + birthDay, DateTimeFormatter.BASIC_ISO_DATE);
 
