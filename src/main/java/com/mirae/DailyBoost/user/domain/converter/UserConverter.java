@@ -17,7 +17,6 @@ public class UserConverter {
         .name(attributes.getName())
         .nickname(attributes.getNickname())
         .profileImageUrl(attributes.getImageUrl())
-        .phone(attributes.getPhone())
         .gender(attributes.getGender())
         .registered_at(LocalDateTime.now())
         .status(UserStatus.REGISTERED)
@@ -34,7 +33,6 @@ public class UserConverter {
         .id(user.getId())
         .email(user.getEmail())
         .name(user.getNickname())
-        .phone(user.getPhone())
         .nickname(user.getNickname())
         .gender(user.getGender())
         .build();
