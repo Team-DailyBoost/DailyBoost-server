@@ -3,13 +3,11 @@ package com.mirae.DailyBoost.oauth.config;
 import com.mirae.DailyBoost.oauth.business.CustomOAuth2UserBusiness;
 import com.mirae.DailyBoost.oauth.handler.CustomLoginSuccessHandler;
 import com.mirae.DailyBoost.user.domain.repository.enums.Role;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
