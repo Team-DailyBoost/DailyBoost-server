@@ -13,7 +13,8 @@ public enum UserErrorCode implements ErrorCode {
   DORMANT_ACCOUNT(HttpStatus.LOCKED.value(), 1102, "회원님의 계정이 휴면계정입니다. 로그인을 하려면 계정 복구를 해주세요."),
   VERIFICATION_CODE_MISMATCH(HttpStatus.BAD_REQUEST.value(), 1103, "인증 코드가 일치하지 않습니다."),
   VERIFICATION_CODE_EXPIRED_OR_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), 1104, "인증 코드가 만료되었거나 존재하지 않습니다."),
-  USER_UNREGISTER_FAIL(500, 1105, "회원 탈퇴에 실패했습니다.")
+  USER_UNREGISTER_FAIL(500, 1105, "회원 탈퇴에 실패했습니다."),
+  HEALTH_INFO_NOT_SET(400, 1106, "사용자 헬스 정보를 등록해야 합니다.")
   ;
 
   private final Integer httpCode;
