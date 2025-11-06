@@ -4,6 +4,15 @@ spring:
       max-file-size: 6MB         # 1개 파일 상한
       max-request-size: 20MB     # 요청 전체 상한
 
+  jwt:
+    secret: ${JWT_SECRET_KEY}
+    access:
+      expiration: 3600000
+      header: Authorization
+    refresh:
+      expiration: 1209600000
+      header: X-Refresh-Token
+
   web:
     resources:
       static-locations: file:uploads/
@@ -105,8 +114,6 @@ spring:
             authorization-grant-type: authorization_code
             client-authentication-method: client_secret_post
 
-
-
   mail:
     host: smtp.gmail.com
     port: 587
@@ -122,6 +129,15 @@ spring:
 
 file:
   dir: /Users/mirae/upload-dir
+
+  springdoc:
+    swagger-ui:
+      path: /api-test  # swagger-ui 접근 경로에 대한 별칭, 해당 주소로 접속해도 http://localhost:8080/swagger-ui/index.html로 리다이렉션 됨.
+      groups-order: DESC # path, query, body, response 순으로 출력
+      tags-sorter: alpha # 태그를 알파벳 순으로 정렬
+      operations-sorter: method  # delete - get - patch - post - put 순으로 정렬, alpha를 사용하면 알파벳 순으로 정렬 가능
+    paths-to-match:
+      - /api/** # swagger-ui에 표시할 api의 엔드포인트 패턴
 
 
 
