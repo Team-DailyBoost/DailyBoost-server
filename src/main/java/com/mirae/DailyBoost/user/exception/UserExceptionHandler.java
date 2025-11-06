@@ -4,6 +4,7 @@ import com.mirae.DailyBoost.global.api.Api;
 import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.user.exception.user.AlreadyUnregisteredException;
 import com.mirae.DailyBoost.user.exception.user.DormantAccountException;
+import com.mirae.DailyBoost.user.exception.user.HealthInfoNotSetException;
 import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import com.mirae.DailyBoost.user.exception.user.VerificationCodeExpiredOrNotFoundException;
 import com.mirae.DailyBoost.user.exception.user.VerificationCodeMismatchException;
@@ -50,6 +51,13 @@ public class UserExceptionHandler {
     log.error("", e);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(Api.error(UserErrorCode.VERIFICATION_CODE_EXPIRED_OR_NOT_FOUND));
+  }
+
+  @ExceptionHandler(value = HealthInfoNotSetException.class)
+  public ResponseEntity<Api<Object>> healthInfoNotSetException(HealthInfoNotSetException e) {
+    log.error("", e);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(Api.error(UserErrorCode.HEALTH_INFO_NOT_SET));
   }
 
 

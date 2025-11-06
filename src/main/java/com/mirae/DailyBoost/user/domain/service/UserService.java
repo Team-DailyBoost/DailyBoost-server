@@ -51,4 +51,8 @@ public class UserService {
     return userRepository.findUserByIdAndStatus(id, userStatus);
 
   }
+
+  public Optional<User> getByRefreshToken(String refreshToken) {
+    return userRepository.findByRefreshToken(refreshToken);
+  }
 }

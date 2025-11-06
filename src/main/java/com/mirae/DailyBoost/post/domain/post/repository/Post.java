@@ -1,5 +1,6 @@
 package com.mirae.DailyBoost.post.domain.post.repository;
 
+import com.mirae.DailyBoost.image.domain.image.repository.Image;
 import com.mirae.DailyBoost.post.domain.comment.repository.Comment;
 import com.mirae.DailyBoost.post.domain.post.repository.enums.PostKind;
 import com.mirae.DailyBoost.post.domain.post.repository.enums.PostStatus;
@@ -17,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -69,6 +71,9 @@ public class Post {
 
   @Enumerated(EnumType.STRING)
   private PostKind postKind;
+
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Image> images = new ArrayList<>();
 
   public void addComment(Comment comment) {
     this.comments.add(comment);

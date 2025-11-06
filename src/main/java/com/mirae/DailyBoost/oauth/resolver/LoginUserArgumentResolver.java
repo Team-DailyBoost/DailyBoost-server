@@ -1,12 +1,13 @@
 package com.mirae.DailyBoost.oauth.resolver;
 
 import com.mirae.DailyBoost.global.annotation.LoginUser;
+import com.mirae.DailyBoost.oauth.CustomOAuth2User;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import com.mirae.DailyBoost.user.domain.repository.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -27,22 +28,26 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     return isLoginUserAnnotation && isUserClass;
   }
 
-  // 파라미터에 전달한 객체를 생성
-  // 세션에서 객체를 가져온다.
   @Override
   public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
       NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-    HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+    Authentication authentication = org.springframework.security.core.context.SecurityContextHolder
+        .getContext()
+        .getAuthentication();
 
-    // 이미 세션이 있다면 그 세션을 돌려주고, 세션이 없으면 null을 돌려준다.
-    HttpSession session = request.getSession(false); // 현재 요청에 연결된 세션
-
-    if (session == null) {
-      log.warn("세션이 없습니다.");
-      return null;
+    if (authentication == null) {
+      log.warn("인증 정보가 없습니다.");
+      throw new IllegalArgumentException("인증 정보가 없습니다.");
     }
 
-    return session.getAttribute("user");
+    Object principal = authentication.getPrincipal();
+
+    if (principal instanceof CustomOAuth2User customOAuth2User) {
+      User user = customOAuth2User.getUser();
+      return new UserDTO(user);
+    }
+
+    return null;
   }
 }
