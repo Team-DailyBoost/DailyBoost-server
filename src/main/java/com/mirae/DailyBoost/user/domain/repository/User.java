@@ -74,6 +74,8 @@ public class User {
 
   private String providerId; // 공급 아이디
 
+  private String refreshToken; // 리프레시 토큰
+
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "profile_image_id")
   private Image profileImage;
@@ -102,5 +104,9 @@ public class User {
 
   public void initLastLoginAt(LocalDateTime localDateTime) {
     this.lastLogin_at = localDateTime;
+  }
+
+  public void updateRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
   }
 }
