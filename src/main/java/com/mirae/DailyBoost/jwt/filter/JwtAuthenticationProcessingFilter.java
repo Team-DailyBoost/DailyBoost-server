@@ -9,9 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +39,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     log.info("JWT Filter 실행 - URI: {}", request.getRequestURI());
+
+    // 이미 세션/컨텍스트에 인증이 있으면 JWT 검사 생략
+    if (SecurityContextHolder.getContext().getAuthentication() != null) {
+      filterChain.doFilter(request, response);
+      return;
+    }
     
     if (request.getRequestURI().equals(NO_CHECK_URL)) {
       filterChain.doFilter(request, response); // "/login" 요청이 들어오면, 다음 필터 호출

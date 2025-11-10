@@ -34,7 +34,11 @@ public class SecurityConfig {
 
     http.cors(c -> c.configurationSource(req -> {
       var cfg = new CorsConfiguration();
-      cfg.setAllowedOrigins(List.of("http://localhost:3000"));
+      cfg.setAllowedOrigins(List.of(
+          "http://localhost:3000",
+          "http://127.0.0.1:3000",
+          "http://192.168.0.0/16",
+          "http://112.165.239.133"));
       cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
       cfg.setAllowedHeaders(List.of("*"));
       cfg.setExposedHeaders(List.of("Authorization","X-Refresh-Token"));
@@ -68,8 +72,9 @@ public class SecurityConfig {
 
     http.logout(logout -> logout.logoutSuccessUrl("/")); // 로그아웃 시 리다이렉트 될 URL을 설정
 
+    // OAuth2 세션(JSESSIONID)을 사용하여 WebView의 세션 쿠키로 인증이 유지되도록 STATELESS 해제
     http.sessionManagement((session) -> session
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
     // JWT 인증 필터를 UsernamePasswordAuthenticationFilter 이전에 추가
     http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
