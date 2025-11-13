@@ -1,5 +1,6 @@
-package com.mirae.DailyBoost.openChatAI.controller.model.request;
+package com.mirae.DailyBoost.exercise.domain.controller.model.request;
 
+import com.mirae.DailyBoost.exercise.domain.repository.enums.ExercisePart;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.Level;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +11,6 @@ public class ExerciseRequest {
 
   private String userInput;
   private Level level;
+  private ExercisePart part;
 
 }
