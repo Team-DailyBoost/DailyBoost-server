@@ -74,7 +74,7 @@ public class ExerciseBusiness {
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
-    Exercise exercise = exerciseService.getExercise(exerciseId, ExerciseStatus.UNREGISTERED)
+    Exercise exercise = exerciseService.getExercise(exerciseId, ExerciseStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("EXERCISE_NOT_FOUND"));
 
     if (exercise.getUser().getId() != user.getId()) {
@@ -93,7 +93,7 @@ public class ExerciseBusiness {
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
-    Exercise exercise = exerciseService.getExercise(exerciseId, ExerciseStatus.UNREGISTERED)
+    Exercise exercise = exerciseService.getExercise(exerciseId, ExerciseStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("EXERCISE_NOT_FOUND"));
 
     if (exercise.getUser().getId() != user.getId()) {
@@ -138,7 +138,7 @@ public class ExerciseBusiness {
         .entity(new ParameterizedTypeReference<List<ExerciseRecommendation>>() {
         });
 
-    List<Exercise> exercises = exerciseConverter.toEntity(exerciseList);
+    List<Exercise> exercises = exerciseConverter.toEntity(user, exerciseList);
 
     exerciseService.saveAll(exercises);
     return exerciseList;
