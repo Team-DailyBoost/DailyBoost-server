@@ -5,12 +5,14 @@ import com.mirae.DailyBoost.exercise.domain.repository.enums.ExerciseStatus;
 import com.mirae.DailyBoost.global.annotation.Converter;
 import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseRecommendation;
 import com.mirae.DailyBoost.exercise.domain.repository.Exercise;
+import com.mirae.DailyBoost.user.domain.repository.User;
+
 import java.util.List;
 
 @Converter
 public class ExerciseConverter {
 
-  public List<Exercise> toEntity(List<ExerciseRecommendation> exerciseList) {
+  public List<Exercise> toEntity(User user, List<ExerciseRecommendation> exerciseList) {
     return exerciseList.stream()
         .map(exercise -> {
 
@@ -21,8 +23,8 @@ public class ExerciseConverter {
               .level(exercise.getLevel())
               .status(ExerciseStatus.UNREGISTERED)
               .completionStatus(CompletionStatus.UNCOMPLETED)
-              .part(exercise.getPart())
-              .build();
+              .part(exercise.getPart()).user(user).build();
+
           return exerciseEntity;
 
         }).toList();
