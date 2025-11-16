@@ -32,6 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Post {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "post_id")
   private Long id;
 
   private String title;
@@ -107,7 +108,7 @@ public class Post {
     this.unLikeCount--;
   }
 
-  public void addImages(List<Image> images) {
-    this.images = images;
+  public void addImage(Image image) {
+    this.images.add(image);
   }
 }
