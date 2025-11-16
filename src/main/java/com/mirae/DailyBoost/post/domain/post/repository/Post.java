@@ -104,6 +104,10 @@ public class Post {
   }
 
   public void unLike() {
-    this.unLikeCount++;
+    this.unLikeCount--;
+  }
+
+  public void addImages(List<Image> images) {
+    this.images = images;
   }
 }
