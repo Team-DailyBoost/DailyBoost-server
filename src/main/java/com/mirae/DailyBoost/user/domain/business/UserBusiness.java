@@ -6,6 +6,8 @@ import com.mirae.DailyBoost.global.errorCode.CommonErrorCode;
 import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.global.exception.common.PermissionDeniedException;
 import com.mirae.DailyBoost.global.model.MessageResponse;
+import com.mirae.DailyBoost.image.domain.image.business.ImageBusiness;
+import com.mirae.DailyBoost.image.domain.image.repository.Image;
 import com.mirae.DailyBoost.oauth.OAuthAttributes;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.user.domain.controller.model.request.UserRequest;
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Business
 @Slf4j
@@ -36,6 +39,7 @@ public class UserBusiness {
 
   private final UserService userService;
   private final UserConverter userConverter;
+  private final ImageBusiness imageBusiness;
   private final MessageConverter messageConverter;
   private final RecoveryCodeStore recoveryCodeStore;
 
@@ -89,12 +93,19 @@ public class UserBusiness {
     return messageConverter.toResponse("계정이 복구 되었습니다.");
   }
 
-  public MessageResponse updateUserInfo(UserDTO userDTO, UserUpdateRequest request) {
+  public MessageResponse updateUserInfo(UserDTO userDTO, UserUpdateRequest request, MultipartFile file) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     user.updateInfo(request.getAge(), request.getGender(), request.getHealthInfo());
+
+    if (!(file == null)) {
+        Image uploadImage = imageBusiness.save(file);
+
+        user.initProfile(uploadImage.getUrl());
+        uploadImage.initUserProfile(user);
+    }
 
     userService.save(user);
 

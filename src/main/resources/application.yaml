@@ -136,7 +136,7 @@ spring:
             enable: true
 
 file:
-  dir: /Users/mirae/upload-dir
+  dir: /home/mirae/upload-dir
 
   springdoc:
     swagger-ui:

@@ -1,13 +1,16 @@
 package com.mirae.DailyBoost.post.domain.post.controller.model.request;
 
 import com.mirae.DailyBoost.post.domain.post.repository.enums.PostKind;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter

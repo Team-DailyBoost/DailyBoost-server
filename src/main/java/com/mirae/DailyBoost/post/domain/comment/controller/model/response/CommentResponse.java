@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.Nullable;
+
 @Builder
 @Getter
 @AllArgsConstructor
@@ -16,5 +18,8 @@ public class CommentResponse {
   private LocalDateTime createAt;
   private Long likeCount;
   private Long unLikeCount;
+
+  @Nullable
+  private String imageUrl;
 
 }

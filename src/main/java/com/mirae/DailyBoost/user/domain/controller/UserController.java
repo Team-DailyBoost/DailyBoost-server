@@ -12,12 +12,8 @@ import com.mirae.DailyBoost.user.domain.controller.model.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Slf4j
@@ -50,8 +46,10 @@ public class UserController {
       summary = "사용자 정보 수정",
       description = "자신의 정보를 수정합니다."
   )
-  public Api<MessageResponse> update(@LoginUser UserDTO userDTO, @RequestBody UserUpdateRequest userUpdateRequest) {
-    return Api.OK(userBusiness.updateUserInfo(userDTO, userUpdateRequest));
+  public Api<MessageResponse> update(@LoginUser UserDTO userDTO,
+                                     @RequestPart UserUpdateRequest userUpdateRequest,
+                                     @RequestPart MultipartFile file) {
+    return Api.OK(userBusiness.updateUserInfo(userDTO, userUpdateRequest, file));
   }
 
   @PostMapping("/recover")

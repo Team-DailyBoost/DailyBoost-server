@@ -17,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -76,10 +78,6 @@ public class User {
 
   private String refreshToken; // 리프레시 토큰
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "profile_image_id")
-  private Image profileImage;
-
   public void initInfo(HealthInfo healthInfo) {
     this.healthInfo = healthInfo;
   }
@@ -108,5 +106,9 @@ public class User {
 
   public void updateRefreshToken(String refreshToken) {
     this.refreshToken = refreshToken;
+  }
+
+  public void initProfile(@NotNull String uploadImageUrl) {
+      this.profileImageUrl = uploadImageUrl;
   }
 }

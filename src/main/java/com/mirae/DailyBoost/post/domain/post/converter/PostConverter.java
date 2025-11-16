@@ -42,6 +42,7 @@ public class PostConverter {
           .likeCount(post.getLikeCount())
           .unLikeCount(post.getUnLikeCount())
           .commentCount(Long.valueOf(post.getComments().size()))
+          .imageUrls(post.getImages().stream().map(image -> image.getUrl()).toList())
           .build();
           }
     ).toList();
@@ -83,6 +84,7 @@ public class PostConverter {
                 .authorName(comment.getUser().getNickname())
                 .build();
           }).toList())
+              .imageUrls(post.getImages().stream().map(image -> image.getUrl()).toList())
           .build();
     }
 

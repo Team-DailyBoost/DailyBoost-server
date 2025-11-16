@@ -23,6 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/uploads/**")
-        .addResourceLocations("file:/Users/mirae/upload-dir");
+        .addResourceLocations("file:/home/mirae/upload-dir");
   }
 }

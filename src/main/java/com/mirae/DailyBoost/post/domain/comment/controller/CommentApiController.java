@@ -12,12 +12,8 @@ import com.mirae.DailyBoost.post.domain.comment.controller.model.response.Commen
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,8 +23,10 @@ public class CommentApiController {
   private final CommentBusiness commentBusiness;
 
   @PostMapping("/create")
-  public Api<MessageResponse> create(@LoginUser UserDTO userDTO, @RequestBody @Valid CommentRequest commentRequest) {
-    return Api.OK(commentBusiness.create(userDTO, commentRequest));
+  public Api<MessageResponse> create(@LoginUser UserDTO userDTO,
+                                     @RequestPart @Valid CommentRequest commentRequest,
+                                     @RequestPart(required = false) MultipartFile file) {
+    return Api.OK(commentBusiness.create(userDTO, commentRequest, file));
   }
 
   @PostMapping("/unregister")
@@ -37,8 +35,10 @@ public class CommentApiController {
   }
 
   @PostMapping("/update")
-  public Api<MessageResponse> update(@LoginUser UserDTO userDTO, @RequestBody @Valid CommentUpdateRequest commentUpdateRequest) {
-    return Api.OK(commentBusiness.update(userDTO, commentUpdateRequest));
+  public Api<MessageResponse> update(@LoginUser UserDTO userDTO,
+                                     @RequestPart @Valid CommentUpdateRequest commentUpdateRequest,
+                                     @RequestPart (required = false) MultipartFile file) {
+    return Api.OK(commentBusiness.update(userDTO, commentUpdateRequest, file));
   }
 
   // 수정 할 것

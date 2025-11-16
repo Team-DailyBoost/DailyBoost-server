@@ -3,14 +3,13 @@ package com.mirae.DailyBoost.image.domain.image.business;
 import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.global.converter.MessageConverter;
 import com.mirae.DailyBoost.global.errorCode.ImageErrorCode;
-import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.image.domain.exception.image.FileIsNullException;
 import com.mirae.DailyBoost.image.domain.exception.image.FileSizeExceededException;
 import com.mirae.DailyBoost.image.domain.exception.image.InvalidFileTypeException;
 import com.mirae.DailyBoost.image.domain.image.business.model.FileUploadDto;
 import com.mirae.DailyBoost.image.domain.image.converter.ImageConverter;
 import com.mirae.DailyBoost.image.domain.image.repository.Image;
-import com.mirae.DailyBoost.image.domain.service.ImageService;
+import com.mirae.DailyBoost.image.domain.image.service.ImageService;
 import com.mirae.DailyBoost.image.domain.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
@@ -20,29 +19,31 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Business
 @Slf4j
+@Transactional(readOnly = false)
 @RequiredArgsConstructor
 public class ImageBusiness {
 
   @Value("${file.dir}")
   private String filePath;
-  private String baseUrl = "http://localhost:8080/uploads/"; // 어떻게 하면 좋을까..?
+  private String baseUrl = "https://dailyBoost.duckdns.org/uploads/"; // 어떻게 하면 좋을까..?
 
   private final ImageService imageService;
   private final ImageConverter imageConverter;
   private final MessageConverter messageConverter;
 
-  public MessageResponse save(MultipartFile file) {
+  public Image save(MultipartFile file) {
 
     FileUploadDto fileUploadDto = saveFile(file);
 
     Image image = imageConverter.toEntity(fileUploadDto);
     imageService.save(image);
 
-    return messageConverter.toResponse("파일이 저장되었습니다.");
+    return image;
 
   }
 

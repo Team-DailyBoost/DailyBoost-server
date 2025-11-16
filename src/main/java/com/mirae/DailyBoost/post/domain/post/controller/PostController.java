@@ -12,15 +12,12 @@ import com.mirae.DailyBoost.post.domain.post.controller.model.response.PostsResp
 import com.mirae.DailyBoost.post.domain.post.controller.model.response.SearchPostResponse;
 import com.mirae.DailyBoost.post.domain.post.repository.enums.PostKind;
 import java.util.List;
+import javax.annotation.Nullable;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +26,12 @@ public class PostController {
 
   private final PostBusiness postBusiness;
 
-  @PostMapping("/create")
-  public Api<MessageResponse> create(@LoginUser UserDTO userDTO, @RequestBody @Valid PostCreateRequest postCreateRequest) {
-    return Api.OK(postBusiness.create(userDTO, postCreateRequest));
+  @PostMapping(value = "/create",
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public Api<MessageResponse> create(@LoginUser UserDTO userDTO,
+                                     @RequestPart @Valid PostCreateRequest postCreateRequest,
+                                     @RequestPart(required = false) List<MultipartFile> files) {
+    return Api.OK(postBusiness.create(userDTO, postCreateRequest, files));
   }
 
   @PostMapping("/{postId}")
@@ -40,8 +40,10 @@ public class PostController {
   }
 
   @PostMapping("/update")
-  public Api<MessageResponse> update(@LoginUser UserDTO userDTO, @RequestBody PostUpdateRequest postUpdateRequest) {
-    return Api.OK(postBusiness.update(userDTO, postUpdateRequest));
+  public Api<MessageResponse> update(@LoginUser UserDTO userDTO,
+                                     @RequestPart PostUpdateRequest postUpdateRequest,
+                                     @RequestPart(required = false) List<MultipartFile> files) {
+    return Api.OK(postBusiness.update(userDTO, postUpdateRequest, files));
   }
 
   // 수정 할 것
