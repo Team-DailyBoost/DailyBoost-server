@@ -2,7 +2,10 @@ package com.mirae.DailyBoost.post.domain.comment.business;
 
 import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.global.model.MessageResponse;
+import com.mirae.DailyBoost.image.domain.image.business.ImageBusiness;
+import com.mirae.DailyBoost.image.domain.image.repository.Image;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.post.domain.comment.controller.model.request.CommentRequest;
 import com.mirae.DailyBoost.post.domain.comment.controller.model.request.CommentUnregisterRequest;
@@ -17,8 +20,11 @@ import com.mirae.DailyBoost.post.domain.post.service.PostService;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.service.UserService;
 import java.util.List;
+
+import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Business
 @Transactional(readOnly = false)
@@ -28,13 +34,14 @@ public class CommentBusiness {
   private final CommentService commentService;
   private final UserService userService;
   private final PostService postService;
+  private final ImageBusiness imageBusiness;
   private final CommentConverter commentConverter;
   private final MessageConverter messageConverter;
 
 
-  public MessageResponse create(UserDTO userDTO, CommentRequest commentRequest) {
+  public MessageResponse create(UserDTO userDTO, CommentRequest commentRequest, MultipartFile file) {
     User user = userService.getById(userDTO.getId())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     Post post = postService.getByIdAndStatus(commentRequest.getPostId(), PostStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("POST_NOT_FOUND"));
@@ -42,6 +49,13 @@ public class CommentBusiness {
     Comment comment = commentConverter.toEntity(user, post, commentRequest);
 
     post.addComment(comment);
+
+      if (!(file == null)) {
+          Image uploadImage = imageBusiness.save(file);
+
+          uploadImage.addCommentImage(comment);
+          comment.initImage(uploadImage);
+      }
 
     commentService.save(comment);
 
@@ -75,7 +89,7 @@ public class CommentBusiness {
     return messageConverter.toResponse("댓글이 삭제되었습니다.");
   }
 
-  public MessageResponse update(UserDTO userDTO, CommentUpdateRequest commentUpdateRequest) {
+  public MessageResponse update(UserDTO userDTO, CommentUpdateRequest commentUpdateRequest, MultipartFile file) {
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
 
@@ -95,7 +109,14 @@ public class CommentBusiness {
 
     comment.updateInfo(commentUpdateRequest.getContent());
 
-    commentService.save(comment);
+      if (!(file == null)) {
+          Image uploadImage = imageBusiness.save(file);
+
+          uploadImage.addCommentImage(comment);
+          comment.initImage(uploadImage);
+      }
+
+      commentService.save(comment);
 
     return messageConverter.toResponse("댓글이 수정되었습니다.");
 
