@@ -20,29 +20,31 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Business
 @Slf4j
+@Transactional(readOnly = false)
 @RequiredArgsConstructor
 public class ImageBusiness {
 
   @Value("${file.dir}")
   private String filePath;
-  private String baseUrl = "http://localhost:8080/uploads/"; // 어떻게 하면 좋을까..?
+  private String baseUrl = "https://dailyBoost.duckdns.org/uploads/"; // 어떻게 하면 좋을까..?
 
   private final ImageService imageService;
   private final ImageConverter imageConverter;
   private final MessageConverter messageConverter;
 
-  public MessageResponse save(MultipartFile file) {
+  public Image save(MultipartFile file) {
 
     FileUploadDto fileUploadDto = saveFile(file);
 
     Image image = imageConverter.toEntity(fileUploadDto);
     imageService.save(image);
 
-    return messageConverter.toResponse("파일이 저장되었습니다.");
+    return image;
 
   }
 
