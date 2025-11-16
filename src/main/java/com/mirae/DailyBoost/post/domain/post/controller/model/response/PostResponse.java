@@ -22,5 +22,6 @@ public class PostResponse {
   private Long likeCount;
   private Long unLikeCount;
   private List<CommentInfo> commentInfos;
+  private List<String> imageUrls;
 
 }
