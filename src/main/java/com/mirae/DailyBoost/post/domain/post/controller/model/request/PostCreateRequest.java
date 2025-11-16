@@ -29,7 +29,4 @@ public class PostCreateRequest {
   @NotNull
   private PostKind postKind;
 
-  @Nullable
-  private List<MultipartFile> files;
-
 }
