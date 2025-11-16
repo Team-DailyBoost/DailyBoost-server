@@ -3,16 +3,8 @@ package com.mirae.DailyBoost.image.domain.image.repository;
 import com.mirae.DailyBoost.image.domain.image.repository.enums.ImageStatus;
 import com.mirae.DailyBoost.post.domain.comment.repository.Comment;
 import com.mirae.DailyBoost.post.domain.post.repository.Post;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.mirae.DailyBoost.user.domain.repository.User;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -60,8 +52,23 @@ public class Image {
   @JoinColumn(name = "post_id")
   private Post post;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "comment_id")
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "comment_id", nullable = true)
   private Comment comment;
 
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = true)
+  private User user;
+
+  public void addPostImage(Post post) {
+      this.post = post;
+  }
+
+  public void addCommentImage(Comment comment) {
+      this.comment = comment;
+  }
+
+  public void initUserProfile(User user) {
+      this.user = user;
+  }
 }
