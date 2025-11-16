@@ -14,7 +14,9 @@ import com.mirae.DailyBoost.post.domain.post.repository.enums.PostKind;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,8 +31,9 @@ public class PostController {
 
   private final PostBusiness postBusiness;
 
-  @PostMapping("/create")
-  public Api<MessageResponse> create(@LoginUser UserDTO userDTO, @RequestBody @Valid PostCreateRequest postCreateRequest) {
+  @PostMapping(value = "/create",
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public Api<MessageResponse> create(@LoginUser UserDTO userDTO, @ModelAttribute @Valid PostCreateRequest postCreateRequest) {
     return Api.OK(postBusiness.create(userDTO, postCreateRequest));
   }
 
