@@ -2,7 +2,10 @@ package com.mirae.DailyBoost.post.domain.post.business;
 
 import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.global.converter.MessageConverter;
+import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.global.model.MessageResponse;
+import com.mirae.DailyBoost.image.domain.image.business.ImageBusiness;
+import com.mirae.DailyBoost.image.domain.image.repository.Image;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
 import com.mirae.DailyBoost.post.domain.post.controller.model.response.PostResponse;
 import com.mirae.DailyBoost.post.domain.post.controller.model.request.PostCreateRequest;
@@ -15,10 +18,13 @@ import com.mirae.DailyBoost.post.domain.post.repository.enums.PostKind;
 import com.mirae.DailyBoost.post.domain.post.repository.enums.PostStatus;
 import com.mirae.DailyBoost.post.domain.post.service.PostService;
 import com.mirae.DailyBoost.user.domain.repository.User;
+import com.mirae.DailyBoost.user.domain.repository.enums.Role;
 import com.mirae.DailyBoost.user.domain.service.UserService;
+import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Business
 @Transactional(readOnly = false)
@@ -27,13 +33,19 @@ public class PostBusiness {
 
   private final PostService postService;
   private final UserService userService;
+  private final ImageBusiness imageBusiness;
   private final PostConverter postConverter;
   private final MessageConverter messageConverter;
 
   public MessageResponse create(UserDTO userDTO, PostCreateRequest postCreateRequest) {
 
     User user = userService.getById(userDTO.getId())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
+
+    // 대회 게시판은 관리자만 게시글을 쓸 수 있다.
+    if (!(postCreateRequest.getPostKind() == PostKind.COMPETITION && userDTO.getRole() == Role.ADMIN)) {
+      throw new IllegalArgumentException("대회 게시글은 관리자만 쓸 수 있습니다.");
+    }
 
     Boolean validateDuplicationTitle = postService.existsByTitle(user.getId(), postCreateRequest.getTitle(),
         PostStatus.REGISTERED);
@@ -44,6 +56,15 @@ public class PostBusiness {
 
     Post post = postConverter.toEntity(user, postCreateRequest);
 
+    if (!postCreateRequest.getFiles().isEmpty()) {
+      List<MultipartFile> files = postCreateRequest.getFiles();
+
+      List<Image> uploadImages =
+          files.stream().map(file -> imageBusiness.save(file)).toList();
+
+      post.addImages(uploadImages);
+    }
+
     postService.save(post);
     return messageConverter.toResponse("게시글이 생성되었습니다.");
 
@@ -52,7 +73,7 @@ public class PostBusiness {
   public MessageResponse unregister(UserDTO userDTO, Long id) {
 
     User user = userService.getById(userDTO.getId())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     Post post = postService.getById(id)
         .orElseThrow(() -> new IllegalArgumentException("POST_NOT_FOUND"));
@@ -70,7 +91,7 @@ public class PostBusiness {
   public MessageResponse update(UserDTO userDTO, PostUpdateRequest req) {
 
     User user = userService.getById(userDTO.getId())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     Post post = postService.getByIdAndStatus(req.getId(), PostStatus.REGISTERED)
         .orElseThrow(() -> new IllegalArgumentException("POST_NOT_FOUND"));
@@ -90,7 +111,7 @@ public class PostBusiness {
     List<Post> posts = postService.getListByPostKindAndStatus(postKind, PostStatus.REGISTERED);
 
     if (posts.isEmpty()) {
-      throw new IllegalArgumentException("USER_NOT_FOUND");
+      throw new UserNotFoundException(UserErrorCode.USER_NOT_FOUND);
     }
 
     return postConverter.toPostsResponse(posts);
@@ -101,7 +122,7 @@ public class PostBusiness {
         .orElseThrow(() -> new IllegalArgumentException("POST_NOT_FOUND"));
 
     User user = userService.getById(userDTO.getId())
-        .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
     // 수정 예정 (같은 사용자가 조회를 해도 조회수가 늘어남)
     post.addViewCount();
