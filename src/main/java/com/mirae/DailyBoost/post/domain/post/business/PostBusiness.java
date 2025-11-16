@@ -22,6 +22,8 @@ import com.mirae.DailyBoost.user.domain.repository.enums.Role;
 import com.mirae.DailyBoost.user.domain.service.UserService;
 import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,14 +39,17 @@ public class PostBusiness {
   private final PostConverter postConverter;
   private final MessageConverter messageConverter;
 
-  public MessageResponse create(UserDTO userDTO, PostCreateRequest postCreateRequest) {
+  public MessageResponse create(UserDTO userDTO, PostCreateRequest postCreateRequest, List<MultipartFile> files) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
-    // 대회 게시판은 관리자만 게시글을 쓸 수 있다.
-    if (!(postCreateRequest.getPostKind() == PostKind.COMPETITION && userDTO.getRole() == Role.ADMIN)) {
-      throw new IllegalArgumentException("대회 게시글은 관리자만 쓸 수 있습니다.");
+    // 대회 게시판이 요청 되었을때
+    if(postCreateRequest.getPostKind() == PostKind.COMPETITION) {
+        // 관리자만 게시글을 쓸 수 있다.
+        if (!(userDTO.getRole() == Role.ADMIN)) {
+            throw new IllegalArgumentException("대회 게시글은 관리자만 쓸 수 있습니다.");
+        }
     }
 
     Boolean validateDuplicationTitle = postService.existsByTitle(user.getId(), postCreateRequest.getTitle(),
@@ -56,13 +61,12 @@ public class PostBusiness {
 
     Post post = postConverter.toEntity(user, postCreateRequest);
 
-    if (!postCreateRequest.getFiles().isEmpty()) {
-      List<MultipartFile> files = postCreateRequest.getFiles();
-
+    if (!(files == null)) {
       List<Image> uploadImages =
-          files.stream().map(file -> imageBusiness.save(file)).toList();
+          files.stream().map(file -> imageBusiness.save(file)).collect(Collectors.toList());
 
-      post.addImages(uploadImages);
+        uploadImages.forEach(image -> image.addPostImage(post));
+        uploadImages.forEach(image -> post.addImage(image));
     }
 
     postService.save(post);
@@ -88,7 +92,7 @@ public class PostBusiness {
     return messageConverter.toResponse("게시글이 삭제되었습니다.");
   }
 
-  public MessageResponse update(UserDTO userDTO, PostUpdateRequest req) {
+  public MessageResponse update(UserDTO userDTO, PostUpdateRequest req, List<MultipartFile> files) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
@@ -97,6 +101,14 @@ public class PostBusiness {
         .orElseThrow(() -> new IllegalArgumentException("POST_NOT_FOUND"));
 
     validatePostAuthor(user, post);
+
+    if(!(files == null)) {
+        List<Image> uploadImages =
+                files.stream().map(file -> imageBusiness.save(file)).collect(Collectors.toList());
+
+        uploadImages.forEach(image -> image.addPostImage(post));
+        uploadImages.forEach(image -> post.addImage(image));
+    }
 
     post.updateInfo(req.getTitle(), req.getContent(), req.getPostKind());
 
