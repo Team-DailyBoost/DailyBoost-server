@@ -1,4 +1,4 @@
-package com.mirae.DailyBoost.image.domain.service;
+package com.mirae.DailyBoost.image.domain.image.service;
 
 import com.mirae.DailyBoost.image.domain.image.repository.Image;
 import com.mirae.DailyBoost.image.domain.image.repository.ImageRepository;
