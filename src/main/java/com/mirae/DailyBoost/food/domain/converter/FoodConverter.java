@@ -38,6 +38,7 @@ public class FoodConverter {
         .foodKind(foodRecommendation.getFoodKind())
         .description(foodRecommendation.getDescription())
         .status(FoodStatus.UNREGISTERED)
+        .weight(foodRecommendation.getWeight())
         .user(user)
         .build();
   }
@@ -53,6 +54,7 @@ public class FoodConverter {
           .fat(food.getFat())
           .foodKind(food.getFoodKind())
           .description(food.getDescription())
+          .weight(food.getWeight())
           .build();
     }).toList();
   }

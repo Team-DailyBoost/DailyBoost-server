@@ -151,7 +151,8 @@ public class FoodBusiness {
                   "protein": "음식 단백질 함유량"
                   "fat": "음식 자방 함유량"
                   "foodKind": "RECIPE"
-                  "description": 음식 만드는 방법 자세히 (설명)
+                  "description": 음식 만드는 방법 자세히 (설명),
+                  "weight": 음식 그램 수 g 
             }
             
             사용자가 레시피와 관련 없는 질문을 한다면 null값을 넣어주세요.
@@ -162,7 +163,8 @@ public class FoodBusiness {
                   "protein": null
                   "fat": null
                   "foodKind": null
-                  "description": null
+                  "description": null,
+                  "weight": null
             }
             """)
         .user(recipeRequest.getUserInput())

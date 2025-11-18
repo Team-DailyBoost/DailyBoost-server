@@ -19,5 +19,6 @@ public class FoodResponse {
   private BigDecimal fat;
   private FoodKind foodKind;
   private String description;
+  private Long weight;
 
 }
