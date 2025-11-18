@@ -37,7 +37,8 @@ public class SecurityConfig {
       cfg.setAllowedOrigins(List.of(
           "http://localhost:3000",
           "http://127.0.0.1:3000",
-          "http://192.168.0.0/16",
+          "http://127.0.0.1:8081",
+          "https://dailyboost.duckdns.org",
           "http://112.165.239.133"));
       cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
       cfg.setAllowedHeaders(List.of("*"));
