@@ -46,6 +46,9 @@ public class Food {
   @Column(precision = 10, scale = 2, nullable = false)
   private BigDecimal fat;
 
+  @Column(nullable = false)
+  private Long weight;
+
   @Enumerated(EnumType.STRING)
   private FoodKind foodKind;
 
