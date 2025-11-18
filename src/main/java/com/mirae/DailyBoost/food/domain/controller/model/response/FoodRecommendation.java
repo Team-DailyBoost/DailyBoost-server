@@ -16,5 +16,6 @@ public class FoodRecommendation {
   private BigDecimal fat;
   private FoodKind foodKind;
   private String description;
+  private Long weight;
 
 }
