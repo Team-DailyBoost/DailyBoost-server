@@ -22,6 +22,7 @@ public class FoodConverter {
           .foodKind(foodRecommendation.getFoodKind())
           .description(foodRecommendation.getDescription())
           .status(FoodStatus.UNREGISTERED)
+          .weight(foodRecommendation.getWeight())
           .user(user)
           .build();
     }).toList();
