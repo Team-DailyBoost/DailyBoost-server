@@ -19,6 +19,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 
@@ -83,9 +84,15 @@ public class FoodBusiness {
     HealthInfo healthInfo = user.getHealthInfo();
 
     List<FoodRecommendation> foodList = chatClient.prompt()
+            .options(ChatOptions.builder()
+                    .temperature(1.8)
+                    .topP(0.9)
+                    .build())
         .system("""
             당신은 음식만 추천해주는 AI비서입니다. 사용자가 음식과 관련 없는 질문을 한다면 정중하게 거절하세요.
             사용자의 프로필 정보(키, 몸무게, 목표)를 기반으로 아침, 점심, 저녁 메뉴를 추천해주세요.
+            추천 시 매번 무작위 요소를 포함하여 서로 다른 답변을 생성하세요.
+            이전 응답과 동일한 음식 조합은 피하세요.
             
             사용자 목표 (Goal)
               WEIGHT_LOSS,                // 체중 감량
@@ -103,7 +110,8 @@ public class FoodBusiness {
                   "protein": "음식 단백질 함유량"
                   "fat": "음식 자방 함유량"
                   "foodKind": BREAKFAST("아침"), LUNCH("점심"), DINNER("저녁")
-                  "description": "음식 설명"
+                  "description": "음식 설명",
+                  "weight": "음식 그램수 g"
             }
             """)
         .user("\n 키: " + healthInfo.getHeight() + "\n 몸무게: " + healthInfo.getWeight() +
