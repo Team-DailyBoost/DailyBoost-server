@@ -1,5 +1,6 @@
 package com.mirae.DailyBoost.exercise.domain.business;
 
+import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRequest;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.ExerciseStatus;
 import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.global.converter.MessageConverter;
@@ -10,13 +11,14 @@ import com.mirae.DailyBoost.exercise.domain.service.ExerciseService;
 import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
-import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRequest;
+import com.mirae.DailyBoost.exercise.domain.controller.model.request.PartExerciseRequest;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.service.UserService;
 import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,19 +108,23 @@ public class ExerciseBusiness {
     return messageConverter.toResponse("운동 미완료");
   }
 
-  public List<ExerciseRecommendation> recommendExercise(UserDTO userDTO, ExerciseRequest exerciseRequest) {
+  public List<ExerciseRecommendation> recommendPartExercise(UserDTO userDTO, PartExerciseRequest partexerciseRequest) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
 
-    if (exerciseRequest.getUserInput().isBlank()) {
+    if (partexerciseRequest.getUserInput().isBlank()) {
       throw new IllegalArgumentException("USER_INPUT_IS_BLANK");
     }
 
     List<ExerciseRecommendation> exerciseList = chatClient.prompt()
+        .options(ChatOptions.builder()
+            .temperature(1.8)
+            .topP(0.9)
+            .build())
         .system("""
             당신은 운동만 추천하는 AI 비서입니다. 사용자가 운동과 관련 없는 질문을 한다면 정중하게 거절하세요.
-            운동 5개를 사용자가 원하는 난이도로 추천해주고, 각 운동마다 관련된 youtube 링크를 추가해주세요.
+            운동 6개를 사용자가 원하는 난이도로 추천해주고, 각 운동마다 관련된 youtube 링크를 해당 운동 검색 창 까지만 추가해주세요.
             사용자가 선택한 부위(ExercisePart)로 운동을 추천해주세요.
             각 운동마다 간단한 설명을 해주세요.
             
@@ -132,8 +138,45 @@ public class ExerciseBusiness {
             }
             
             """)
-        .user(exerciseRequest.getUserInput() + "\n난이도: " + exerciseRequest.getLevel() +
-            "\n운동 부위: " + exerciseRequest.getPart())
+        .user(partexerciseRequest.getUserInput() + "\n난이도: " + partexerciseRequest.getLevel() +
+            "\n운동 부위: " + partexerciseRequest.getPart())
+        .call()
+        .entity(new ParameterizedTypeReference<List<ExerciseRecommendation>>() {
+        });
+
+    List<Exercise> exercises = exerciseConverter.toEntity(user, exerciseList);
+
+    exerciseService.saveAll(exercises);
+    return exerciseList;
+  }
+
+  public List<ExerciseRecommendation> recommendExercise(UserDTO userDTO,
+      ExerciseRequest exerciseRequest) {
+
+    User user = userService.getById(userDTO.getId())
+        .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
+
+    List<ExerciseRecommendation> exerciseList = chatClient.prompt()
+        .options(ChatOptions.builder()
+            .temperature(1.8)
+            .topP(0.9)
+            .build())
+        .system("""
+            당신은 운동만 추천하는 AI 비서입니다. 사용자가 운동과 관련 없는 질문을 한다면 정중하게 거절하세요.
+            운동 5개를 사용자가 원하는 난이도로 추천해주고, 각 운동마다 관련된 youtube 링크를 해당 운동 검색 창 까지만 추가해주세요.
+            각 운동마다 간단한 설명을 해주세요. 사용자 컨디션과 운동 시간 설정에 맞춰서 운동을 추천해주세요.
+            
+            반드시 아래 JSON 형식으로만 응답하세요.
+            {
+              "name": "운동 이름",
+              "description": "운동 설명",
+              "youtubeLink": "유튜브 링크", 볼 수 있는 영상 링크로 보내주세요.
+              "level": "BEGINNER", "INTERMEDIATE", "ADVANCED", 난이도는 초보, 중급 정도로 추천
+              "part" : 운동 부위는 아무거나 랜덤으로 추천
+            }
+            
+            """)
+        .user("운동 시간: " + exerciseRequest.getExerciseTime() + "컨디션: " + exerciseRequest.getCondition())
         .call()
         .entity(new ParameterizedTypeReference<List<ExerciseRecommendation>>() {
         });
