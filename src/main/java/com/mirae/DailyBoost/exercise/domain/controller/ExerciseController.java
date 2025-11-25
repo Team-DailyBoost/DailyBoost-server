@@ -1,12 +1,13 @@
 package com.mirae.DailyBoost.exercise.domain.controller;
 
+import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRequest;
 import com.mirae.DailyBoost.global.annotation.LoginUser;
 import com.mirae.DailyBoost.global.api.Api;
 import com.mirae.DailyBoost.exercise.domain.business.ExerciseBusiness;
 import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseRecommendation;
 import com.mirae.DailyBoost.global.model.MessageResponse;
 import com.mirae.DailyBoost.oauth.dto.UserDTO;
-import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRequest;
+import com.mirae.DailyBoost.exercise.domain.controller.model.request.PartExerciseRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +43,15 @@ public class ExerciseController {
     return Api.OK(exerciseBusiness.uncomplete(userDTO, exerciseId));
   }
 
+  @GetMapping("/part/recommend")
+  public Api<List<ExerciseRecommendation>> recommendPartExercise(@LoginUser UserDTO userDTO, @RequestBody PartExerciseRequest exerciseRequest) {
+    return Api.OK(exerciseBusiness.recommendPartExercise(userDTO, exerciseRequest));
+
+  }
+
   @GetMapping("/recommend")
   public Api<List<ExerciseRecommendation>> recommendExercise(@LoginUser UserDTO userDTO, @RequestBody ExerciseRequest exerciseRequest) {
     return Api.OK(exerciseBusiness.recommendExercise(userDTO, exerciseRequest));
-
   }
+
 }
