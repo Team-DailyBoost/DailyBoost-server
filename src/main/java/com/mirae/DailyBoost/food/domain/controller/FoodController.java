@@ -53,7 +53,7 @@ public class FoodController {
     return Api.OK(foodBusiness.reset(userDTO));
   }
 
-  @GetMapping("/recipe/recommend")
+  @PostMapping("/recipe/recommend")
   @Operation(
       summary = "레시피 추천",
       description = "LLM으로부터 레시피를 추천받습니다."
@@ -62,7 +62,7 @@ public class FoodController {
     return Api.OK(foodBusiness.recommendRecipe(userDTO, recipeRequest));
   }
 
-  @GetMapping("/recommend")
+  @PostMapping("/recommend")
   @Operation(
       summary = "하루 음식 추천",
       description = "LLM으로부터 아침 점심 저녁 메뉴를 추천받습니다."

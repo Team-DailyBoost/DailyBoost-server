@@ -1,5 +1,6 @@
 package com.mirae.DailyBoost.exercise.domain.converter;
 
+import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseResponse;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.CompletionStatus;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.ExerciseStatus;
 import com.mirae.DailyBoost.global.annotation.Converter;
@@ -31,4 +32,25 @@ public class ExerciseConverter {
 
   }
 
+    public ExerciseResponse toResponse(Exercise exercise) {
+        return ExerciseResponse.builder()
+                .name(exercise.getName())
+                .description(exercise.getDescription())
+                .youtubeLink(exercise.getYoutubeLink())
+                .level(exercise.getLevel())
+                .part(exercise.getPart())
+                .build();
+    }
+
+    public List<ExerciseResponse> toReponseList(List<Exercise> exercises) {
+        return exercises.stream().map(
+                exercise -> ExerciseResponse.builder()
+                        .name(exercise.getName())
+                        .description(exercise.getDescription())
+                        .youtubeLink(exercise.getYoutubeLink())
+                        .level(exercise.getLevel())
+                        .part(exercise.getPart())
+                        .build()
+        ).toList();
+    }
 }
