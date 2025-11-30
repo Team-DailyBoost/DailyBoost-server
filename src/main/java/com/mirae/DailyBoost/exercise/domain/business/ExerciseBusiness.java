@@ -138,7 +138,10 @@ public class ExerciseBusiness {
               "description": "운동 설명",
               "youtubeLink": "유튜브 링크",
               "level": "BEGINNER", "INTERMEDIATE", "ADVANCED", 이 세개중에서 사용자 선택으로
-              "part": "운동 부위"
+              "part": "운동 부위",
+              "sets": "세트 수",
+              "reps": "횟수",
+              "weight": "무게"
             }
             
             """)
@@ -176,7 +179,10 @@ public class ExerciseBusiness {
               "description": "운동 설명",
               "youtubeLink": "유튜브 링크", 볼 수 있는 영상 링크로 보내주세요.
               "level": "BEGINNER", "INTERMEDIATE", "ADVANCED", 난이도는 초보, 중급 정도로 추천
-              "part" : 운동 부위는 아무거나 랜덤으로 추천
+              "part" : 운동 부위는 아무거나 랜덤으로 추천,
+              "sets": "세트 수",
+              "reps": "횟수",
+              "weight": "무게"
             }
             
             """)

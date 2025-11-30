@@ -58,7 +58,7 @@ public class ExerciseController {
         return Api.OK(exerciseBusiness.recommendExercise(userDTO, exerciseRequest));
     }
 
-    @GetMapping("{exerciseId}") //api/exercise/{exerciseId}
+    @GetMapping("/{exerciseId:[0-9]+}") //api/exercise/{exerciseId}
     public Api<ExerciseResponse> getExercise(@LoginUser UserDTO userDTO, @PathVariable Long exerciseId) {
         return Api.OK(exerciseBusiness.getExercise(userDTO, exerciseId));
     }
