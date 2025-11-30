@@ -40,6 +40,18 @@ public class Exercise {
   @Column(nullable = false)
   private String description;
 
+  @Builder.Default
+  @Column(nullable = false)
+  private Integer sets = 0;
+
+  @Builder.Default
+  @Column(nullable = false)
+  private Integer reps = 0;
+
+  @Builder.Default
+  @Column(nullable = false)
+  private Double weight = 0.0;
+
   @Column(name = "registered_at", nullable = true)
   private LocalDate registeredAt;
 
