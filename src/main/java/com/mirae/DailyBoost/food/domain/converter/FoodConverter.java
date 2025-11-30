@@ -43,7 +43,7 @@ public class FoodConverter {
         .build();
   }
 
-  public List<FoodResponse> toResponse(List<Food> foods) {
+  public List<FoodResponse> toResponses(List<Food> foods) {
     return foods.stream().map(food -> {
       return FoodResponse.builder()
           .id(food.getId())
@@ -58,4 +58,20 @@ public class FoodConverter {
           .build();
     }).toList();
   }
+
+    public FoodResponse toResponse(Food food) {
+            return FoodResponse.builder()
+                    .id(food.getId())
+                    .name(food.getName())
+                    .calory(food.getCalory())
+                    .carbohydrate(food.getCarbohydrate())
+                    .protein(food.getProtein())
+                    .fat(food.getFat())
+                    .foodKind(food.getFoodKind())
+                    .description(food.getDescription())
+                    .weight(food.getWeight())
+                    .build();
+    }
+
+
 }

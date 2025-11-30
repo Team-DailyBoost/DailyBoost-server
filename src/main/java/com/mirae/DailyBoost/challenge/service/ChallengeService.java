@@ -9,6 +9,9 @@ import com.mirae.DailyBoost.global.errorCode.UserErrorCode;
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.service.UserService;
 import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,6 +51,7 @@ public class ChallengeService {
         ChallengeParticipant participant = ChallengeParticipant.builder()
                 .challenge(challenge)
                 .user(userToJoin)
+                .joinedAt(LocalDateTime.now())
                 .build();
 
         challenge.addParticipant(participant);

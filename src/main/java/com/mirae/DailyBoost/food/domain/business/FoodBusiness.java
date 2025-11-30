@@ -76,7 +76,7 @@ public class FoodBusiness {
 
   }
 
-  public List<FoodRecommendation> recommendFood(UserDTO userDTO) {
+  public List<FoodResponse> recommendFood(UserDTO userDTO) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
@@ -123,11 +123,14 @@ public class FoodBusiness {
     List<Food> foods = foodConverter.toEntity(user, foodList);
     foodService.saveAll(foods);
 
-    return foodList;
+      List<FoodResponse> foodResponses = foodConverter.toResponses(foods);
+
+
+      return foodResponses;
   }
 
 
-  public FoodRecommendation recommendRecipe(UserDTO userDTO, RecipeRequest recipeRequest) {
+  public FoodResponse recommendRecipe(UserDTO userDTO, RecipeRequest recipeRequest) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
@@ -177,8 +180,9 @@ public class FoodBusiness {
 
     Food food = foodConverter.toRecipeFoodEntity(user, foodRecommendation);
     foodService.save(food);
+      FoodResponse foodResponse = foodConverter.toResponse(food);
 
-    return foodRecommendation;
+      return foodResponse;
   }
 
   public List<FoodResponse> getByKeyword(UserDTO userDTO, String keyword) {
@@ -188,7 +192,7 @@ public class FoodBusiness {
       throw new IllegalArgumentException("FOOD_NOT_FOUND");
     }
 
-    return foodConverter.toResponse(foods);
+    return foodConverter.toResponses(foods);
 
   }
 
@@ -199,7 +203,7 @@ public class FoodBusiness {
       throw new IllegalArgumentException("FOOD_NOT_FOUND");
     }
 
-    return foodConverter.toResponse(foods);
+    return foodConverter.toResponses(foods);
   }
 
   public List<FoodResponse> getByWeekly(UserDTO userDTO) {
@@ -209,7 +213,7 @@ public class FoodBusiness {
       throw new IllegalArgumentException("FOOD_NOT_FOUND");
     }
 
-    return foodConverter.toResponse(foods);
+    return foodConverter.toResponses(foods);
   }
 
   public MessageResponse reset(UserDTO userDTO) {

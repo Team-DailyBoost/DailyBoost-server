@@ -3,7 +3,6 @@ package com.mirae.DailyBoost.exercise.domain.business;
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRequest;
 import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseResponse;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.ExerciseStatus;
-import com.mirae.DailyBoost.food.domain.repository.enums.FoodStatus;
 import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.global.converter.MessageConverter;
 import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseRecommendation;
@@ -112,7 +111,7 @@ public class ExerciseBusiness {
     return messageConverter.toResponse("운동 미완료");
   }
 
-  public List<ExerciseRecommendation> recommendPartExercise(UserDTO userDTO, PartExerciseRequest partexerciseRequest) {
+  public List<ExerciseResponse> recommendPartExercise(UserDTO userDTO, PartExerciseRequest partexerciseRequest) {
 
     User user = userService.getById(userDTO.getId())
         .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
@@ -154,10 +153,11 @@ public class ExerciseBusiness {
     List<Exercise> exercises = exerciseConverter.toEntity(user, exerciseList);
 
     exerciseService.saveAll(exercises);
-    return exerciseList;
+    List<ExerciseResponse> exerciseResponses = exerciseConverter.toResponses(exercises);
+    return exerciseResponses;
   }
 
-  public List<ExerciseRecommendation> recommendExercise(UserDTO userDTO,
+  public List<ExerciseResponse> recommendExercise(UserDTO userDTO,
       ExerciseRequest exerciseRequest) {
 
     User user = userService.getById(userDTO.getId())
@@ -192,9 +192,10 @@ public class ExerciseBusiness {
         });
 
     List<Exercise> exercises = exerciseConverter.toEntity(user, exerciseList);
-
     exerciseService.saveAll(exercises);
-    return exerciseList;
+    List<ExerciseResponse> exerciseResponses = exerciseConverter.toResponses(exercises);
+
+      return exerciseResponses;
   }
 
     public ExerciseResponse getExercise(UserDTO userDTO, Long exerciseId) {
@@ -211,6 +212,16 @@ public class ExerciseBusiness {
         List<Exercise> exercises =
                 exerciseService.getByStatusAndToday(userDTO.getId(), ExerciseStatus.REGISTERED, LocalDate.now());
 
-      return exerciseConverter.toReponseList(exercises);
+      return exerciseConverter.toResponses(exercises);
+    }
+
+    public ExerciseResponse getUnregisterExercise(UserDTO userDTO, Long exerciseId) {
+        userService.getById(userDTO.getId())
+                .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
+
+        Exercise exercise = exerciseService.getExercise(exerciseId, ExerciseStatus.UNREGISTERED)
+                .orElseThrow(() -> new IllegalArgumentException("운동 없음"));
+
+        return exerciseConverter.toResponse(exercise);
     }
 }

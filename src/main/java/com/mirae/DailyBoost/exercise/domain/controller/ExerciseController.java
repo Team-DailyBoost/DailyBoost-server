@@ -48,19 +48,24 @@ public class ExerciseController {
     }
 
     @PostMapping("/part/recommend")
-    public Api<List<ExerciseRecommendation>> recommendPartExercise(@LoginUser UserDTO userDTO, @RequestBody PartExerciseRequest exerciseRequest) {
+    public Api<List<ExerciseResponse>> recommendPartExercise(@LoginUser UserDTO userDTO, @RequestBody PartExerciseRequest exerciseRequest) {
         return Api.OK(exerciseBusiness.recommendPartExercise(userDTO, exerciseRequest));
 
     }
 
     @PostMapping("/recommend")
-    public Api<List<ExerciseRecommendation>> recommendExercise(@LoginUser UserDTO userDTO, @RequestBody ExerciseRequest exerciseRequest) {
+    public Api<List<ExerciseResponse>> recommendExercise(@LoginUser UserDTO userDTO, @RequestBody ExerciseRequest exerciseRequest) {
         return Api.OK(exerciseBusiness.recommendExercise(userDTO, exerciseRequest));
     }
 
     @GetMapping("/{exerciseId:[0-9]+}") //api/exercise/{exerciseId}
     public Api<ExerciseResponse> getExercise(@LoginUser UserDTO userDTO, @PathVariable Long exerciseId) {
         return Api.OK(exerciseBusiness.getExercise(userDTO, exerciseId));
+    }
+
+    @GetMapping("/{exerciseId:[0-9]+}/unregistered")
+    public Api<ExerciseResponse> getUnregisteredExercise(@LoginUser UserDTO userDTO, @PathVariable Long exerciseId) {
+        return Api.OK(exerciseBusiness.getUnregisterExercise(userDTO, exerciseId));
     }
 
     @GetMapping("/today")

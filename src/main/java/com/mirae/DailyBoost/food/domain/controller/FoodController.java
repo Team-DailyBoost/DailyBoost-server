@@ -58,7 +58,7 @@ public class FoodController {
       summary = "레시피 추천",
       description = "LLM으로부터 레시피를 추천받습니다."
   )
-  public Api<FoodRecommendation> recommendRecipe(@LoginUser UserDTO userDTO, @RequestBody RecipeRequest recipeRequest) {
+  public Api<FoodResponse> recommendRecipe(@LoginUser UserDTO userDTO, @RequestBody RecipeRequest recipeRequest) {
     return Api.OK(foodBusiness.recommendRecipe(userDTO, recipeRequest));
   }
 
@@ -67,7 +67,7 @@ public class FoodController {
       summary = "하루 음식 추천",
       description = "LLM으로부터 아침 점심 저녁 메뉴를 추천받습니다."
   )
-  public Api<List<FoodRecommendation>> recommendFood(@LoginUser UserDTO userDTO) {
+  public Api<List<FoodResponse>> recommendFood(@LoginUser UserDTO userDTO) {
     return Api.OK(foodBusiness.recommendFood(userDTO));
 
   }

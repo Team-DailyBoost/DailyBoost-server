@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExerciseResponse {
 
+    Long id;
     String name;
     String description;
     String youtubeLink;

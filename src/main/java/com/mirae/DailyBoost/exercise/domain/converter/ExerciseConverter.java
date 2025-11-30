@@ -34,6 +34,7 @@ public class ExerciseConverter {
 
     public ExerciseResponse toResponse(Exercise exercise) {
         return ExerciseResponse.builder()
+                .id(exercise.getId())
                 .name(exercise.getName())
                 .description(exercise.getDescription())
                 .youtubeLink(exercise.getYoutubeLink())
@@ -42,9 +43,10 @@ public class ExerciseConverter {
                 .build();
     }
 
-    public List<ExerciseResponse> toReponseList(List<Exercise> exercises) {
+    public List<ExerciseResponse> toResponses(List<Exercise> exercises) {
         return exercises.stream().map(
                 exercise -> ExerciseResponse.builder()
+                        .id(exercise.getId())
                         .name(exercise.getName())
                         .description(exercise.getDescription())
                         .youtubeLink(exercise.getYoutubeLink())
