@@ -1,7 +1,9 @@
 package com.mirae.DailyBoost.exercise.domain.business;
 
 import com.mirae.DailyBoost.exercise.domain.controller.model.request.ExerciseRequest;
+import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseResponse;
 import com.mirae.DailyBoost.exercise.domain.repository.enums.ExerciseStatus;
+import com.mirae.DailyBoost.food.domain.repository.enums.FoodStatus;
 import com.mirae.DailyBoost.global.annotation.Business;
 import com.mirae.DailyBoost.global.converter.MessageConverter;
 import com.mirae.DailyBoost.exercise.domain.controller.model.response.ExerciseRecommendation;
@@ -15,6 +17,8 @@ import com.mirae.DailyBoost.exercise.domain.controller.model.request.PartExercis
 import com.mirae.DailyBoost.user.domain.repository.User;
 import com.mirae.DailyBoost.user.domain.service.UserService;
 import com.mirae.DailyBoost.user.exception.user.UserNotFoundException;
+
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
@@ -186,4 +190,21 @@ public class ExerciseBusiness {
     exerciseService.saveAll(exercises);
     return exerciseList;
   }
+
+    public ExerciseResponse getExercise(UserDTO userDTO, Long exerciseId) {
+        userService.getById(userDTO.getId())
+                .orElseThrow(() -> new UserNotFoundException(UserErrorCode.USER_NOT_FOUND));
+
+        Exercise exercise = exerciseService.getExercise(exerciseId, ExerciseStatus.REGISTERED)
+                .orElseThrow(() -> new IllegalArgumentException("운동 없음"));
+
+        return exerciseConverter.toResponse(exercise);
+    }
+
+    public List<ExerciseResponse> getByToday(UserDTO userDTO) {
+        List<Exercise> exercises =
+                exerciseService.getByStatusAndToday(userDTO.getId(), ExerciseStatus.REGISTERED, LocalDate.now());
+
+      return exerciseConverter.toReponseList(exercises);
+    }
 }

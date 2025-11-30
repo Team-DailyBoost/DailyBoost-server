@@ -44,7 +44,7 @@ public class Post {
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
-  private User user; // author
+  private User user; // authore
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
@@ -73,6 +73,7 @@ public class Post {
   @Enumerated(EnumType.STRING)
   private PostKind postKind;
 
+  @Builder.Default
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Image> images = new ArrayList<>();
 

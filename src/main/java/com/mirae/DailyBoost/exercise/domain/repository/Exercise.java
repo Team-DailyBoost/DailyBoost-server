@@ -21,6 +21,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -37,6 +39,9 @@ public class Exercise {
 
   @Column(nullable = false)
   private String description;
+
+  @Column(name = "registered_at", nullable = true)
+  private LocalDate registeredAt;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
@@ -63,6 +68,7 @@ public class Exercise {
 
   public void register() {
     this.status = ExerciseStatus.REGISTERED;
+    this.registeredAt = LocalDate.now();
   }
 
   public void unregister() {
