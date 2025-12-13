@@ -129,5 +129,5 @@ AI 기반 추천을 통해 효율적인 목표 달성을 돕는 모바일 서비
 ![도전과제](https://github.com/user-attachments/assets/4ce78a5e-ce90-4fcd-8043-9ea3e69049a1)
 
 
-개발 기간
+### 개발 기간
 2025.9.13 ~ 12.01
