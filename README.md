@@ -14,6 +14,22 @@ AI 기반 추천을 통해 효율적인 목표 달성을 돕는 모바일 서비
 - 복잡한 계획 없이 지속 가능한 건강 습관 형성
 - 커뮤니티 기능과 도전과제을 통한 동기부여 및 참여 유도
 
+## 팀원 소개
+
+| ![김미래](https://github.com/mirae7199.png) | ![이기석](https://github.com/useirpwfld.png) | ![유지환](https://github.com/exia-00.png) |
+|:--:|:--:|:--:|
+| **김미래** | **이기석** | **유지환** |
+| Backend | Frontend | Ideation |
+| [GitHub](https://github.com/mirae7199) | [GitHub](https://github.com/useirpwfld) | [GitHub](https://github.com/exia-00) |
+
+<br/>
+
+| ![임현성](https://github.com/lhs312277.png) | ![장지현](https://github.com/gudtjr0811-alt.png) |
+|:--:|:--:|
+| **임현성** | **장지현** |
+| UI/UX | UI/UX |
+| [GitHub](https://github.com/lhs312277) | [GitHub](https://github.com/gudtjr0811-alt) |
+
 ## 주요 기능
 - AI 기반 운동 · 식단 추천 (Spring AI + Gemini AI API 활용)
   - 사용자의 나이, 체형, 목표(다이어트, 근육 증가.. 등)를 기반으로 추천
@@ -61,6 +77,16 @@ AI 기반 추천을 통해 효율적인 목표 달성을 돕는 모바일 서비
 ---
 ## 로그인
 ![login](https://github.com/user-attachments/assets/53fdbb89-6c7f-4ae4-89be-be2089efe9cb)
+## 운동 추천
+![exercise](https://github.com/user-attachments/assets/c63a623f-60e6-4c18-8be5-3fbce6f2a72d)
+## 식단 추천
+![food](https://github.com/user-attachments/assets/7e3692f2-85cb-48f7-8818-60a7e42f88df)
+## 게시판
+![게시판](https://github.com/user-attachments/assets/d388ce33-21e4-4d49-9295-b7cfd48639b9)
+## 대회
+![대회](https://github.com/user-attachments/assets/2347003c-d88b-4fd9-abf6-516535cbeaf4)
+## 도전과제
+![도전과제](https://github.com/user-attachments/assets/4ce78a5e-ce90-4fcd-8043-9ea3e69049a1)
 
 
 개발 기간
