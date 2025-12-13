@@ -14,21 +14,61 @@ AI 기반 추천을 통해 효율적인 목표 달성을 돕는 모바일 서비
 - 복잡한 계획 없이 지속 가능한 건강 습관 형성
 - 커뮤니티 기능과 도전과제을 통한 동기부여 및 참여 유도
 
-## 팀원 소개
+<h2 align="center">🧑‍💻 Team Members</h2>
 
-| ![김미래](https://github.com/mirae7199.png) | ![이기석](https://github.com/useirpwfld.png) | ![유지환](https://github.com/exia-00.png) |
-|:--:|:--:|:--:|
-| **김미래** | **이기석** | **유지환** |
-| Backend | Frontend | Ideation |
-| [GitHub](https://github.com/mirae7199) | [GitHub](https://github.com/useirpwfld) | [GitHub](https://github.com/exia-00) |
+<table align="center">
+  <tr>
+    <td align="center" width="200">
+      <a href="https://github.com/mirae7199">
+        <img src="https://github.com/mirae7199.png" width="120" />
+      </a>
+      <br />
+      <b>김미래</b>
+      <br />
+      Backend
+    </td>
+    <td align="center" width="200">
+      <a href="https://github.com/useirpwfld">
+        <img src="https://github.com/useirpwfld.png" width="120" />
+      </a>
+      <br />
+      <b>이기석<b>
+      <br />
+      Frontend
+    </td>
+    <td align="center" width="200">
+      <a href="https://github.com/exia-00">
+        <img src="https://github.com/exia-00.png" width="120" />
+      </a>
+      <br />
+      <b>유지환</b>
+      <br />
+      Ideation
+    </td>
+  </tr>
 
-<br/>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/lhs312277">
+        <img src="https://github.com/lhs312277.png" width="120" />
+      </a>
+      <br />
+      <b>임현성</b>
+      <br />
+      UI/UX
+    </td>
+    <td align="center">
+      <a href="https://github.com/gudtjr0811-alt">
+        <img src="https://github.com/gudtjr0811-alt.png" width="120" />
+      </a>
+      <br />
+      <b>장지현</b>
+      <br />
+      UI/UX
+    </td>
+  </tr>
+</table>
 
-| ![임현성](https://github.com/lhs312277.png) | ![장지현](https://github.com/gudtjr0811-alt.png) |
-|:--:|:--:|
-| **임현성** | **장지현** |
-| UI/UX | UI/UX |
-| [GitHub](https://github.com/lhs312277) | [GitHub](https://github.com/gudtjr0811-alt) |
 
 ## 주요 기능
 - AI 기반 운동 · 식단 추천 (Spring AI + Gemini AI API 활용)
